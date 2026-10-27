@@ -1,0 +1,252 @@
+{
+  "source": "assets/rafael-game/motion-v3/wave.webp",
+  "width": 2304,
+  "height": 1920,
+  "referenceHeight": 384,
+  "frames": [
+    {
+      "x": 194,
+      "y": 66,
+      "w": 184,
+      "h": 384,
+      "anchorX": 94,
+      "baseline": 384,
+      "sourceBounds": [
+        90,
+        39,
+        265,
+        405
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 770,
+      "y": 66,
+      "w": 184,
+      "h": 384,
+      "anchorX": 94,
+      "baseline": 384,
+      "sourceBounds": [
+        323,
+        39,
+        499,
+        405
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1322,
+      "y": 66,
+      "w": 208,
+      "h": 384,
+      "anchorX": 118,
+      "baseline": 384,
+      "sourceBounds": [
+        539,
+        39,
+        738,
+        405
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1920,
+      "y": 66,
+      "w": 185,
+      "h": 384,
+      "anchorX": 96,
+      "baseline": 384,
+      "sourceBounds": [
+        806,
+        39,
+        982,
+        404
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 193,
+      "y": 546,
+      "w": 187,
+      "h": 384,
+      "anchorX": 95,
+      "baseline": 384,
+      "sourceBounds": [
+        88,
+        422,
+        266,
+        788
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 761,
+      "y": 546,
+      "w": 194,
+      "h": 384,
+      "anchorX": 103,
+      "baseline": 384,
+      "sourceBounds": [
+        316,
+        422,
+        501,
+        788
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1313,
+      "y": 546,
+      "w": 219,
+      "h": 384,
+      "anchorX": 127,
+      "baseline": 384,
+      "sourceBounds": [
+        533,
+        423,
+        741,
+        788
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1886,
+      "y": 546,
+      "w": 219,
+      "h": 384,
+      "anchorX": 130,
+      "baseline": 384,
+      "sourceBounds": [
+        777,
+        422,
+        986,
+        788
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 188,
+      "y": 1026,
+      "w": 191,
+      "h": 384,
+      "anchorX": 100,
+      "baseline": 384,
+      "sourceBounds": [
+        83,
+        803,
+        267,
+        1172
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 766,
+      "y": 1026,
+      "w": 190,
+      "h": 384,
+      "anchorX": 98,
+      "baseline": 384,
+      "sourceBounds": [
+        318,
+        804,
+        500,
+        1172
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1346,
+      "y": 1026,
+      "w": 188,
+      "h": 384,
+      "anchorX": 94,
+      "baseline": 384,
+      "sourceBounds": [
+        562,
+        804,
+        742,
+        1172
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1920,
+      "y": 1026,
+      "w": 188,
+      "h": 384,
+      "anchorX": 96,
+      "baseline": 384,
+      "sourceBounds": [
+        807,
+        806,
+        985,
+        1171
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 184,
+      "y": 1506,
+      "w": 202,
+      "h": 384,
+      "anchorX": 104,
+      "baseline": 384,
+      "sourceBounds": [
+        88,
+        1186,
+        266,
+        1523
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 764,
+      "y": 1506,
+      "w": 199,
+      "h": 384,
+      "anchorX": 100,
+      "baseline": 384,
+      "sourceBounds": [
+        326,
+        1187,
+        500,
+        1523
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1342,
+      "y": 1506,
+      "w": 199,
+      "h": 384,
+      "anchorX": 98,
+      "baseline": 384,
+      "sourceBounds": [
+        566,
+        1187,
+        740,
+        1523
+      ],
+      "referenceHeight": 384
+    },
+    {
+      "x": 1918,
+      "y": 1506,
+      "w": 196,
+      "h": 384,
+      "anchorX": 98,
+      "baseline": 384,
+      "sourceBounds": [
+        811,
+        1187,
+        982,
+        1523
+      ],
+      "referenceHeight": 384
+    }
+  ],
+  "frameCount": 16,
+  "tool": "Built-in image_gen",
+  "prompt": "wave-prompt.txt",
+  "packing": "Non-destructive silhouette extraction, proportional resizing, hip anchor and foot baseline normalization. Original generated sheets preserved."
+}

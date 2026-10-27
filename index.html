@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rafael Carvalho · Desenvolvedor Full Stack</title>
+<meta name="description" content="Portfólio de Rafael Carvalho, desenvolvedor full stack (Angular, React Native, Node.js). Projetos reais: Uply, DFinanceiro e Nous, com demos interativas.">
+<meta name="theme-color" content="#0b1014">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rafael Carvalho · Desenvolvedor Full Stack">
+<meta property="og:description" content="Angular, React Native e Node.js. Conheça o Uply, o DFinanceiro e o Nous com demos interativas.">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rafael Carvalho · Desenvolvedor Full Stack">
+<meta name="twitter:description" content="Angular, React Native e Node.js. Projetos reais com demos interativas.">
+<meta name="twitter:image" content="assets/og.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/rafael-game/hero-640.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css?v=12">
+<link rel="stylesheet" href="css/demos.css?v=7">
+<link rel="stylesheet" href="css/studio.css?v=6">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Rafael Carvalho","jobTitle":"Desenvolvedor Full Stack","email":"mailto:rafaelsancar@gmail.com","worksFor":{"@type":"Organization","name":"Nous"},"knowsAbout":["Angular","React Native","Node.js","TypeScript","PostgreSQL"],"sameAs":["https://www.linkedin.com/in/rafael-sancar-991b01346"]}</script>
+<script>
+document.documentElement.classList.add('rm');
+try {
+  // Apply the new requested defaults once, then preserve visitor choices.
+  if (localStorage.getItem('studio-preferences-v2') !== '1') {
+    localStorage.setItem('theme', 'dark');
+    localStorage.setItem('rm', '1');
+    localStorage.setItem('studio-preferences-v2', '1');
+  }
+  // Show the newly requested choreography once; later choices stay saved.
+  if (localStorage.getItem('studio-animation-v1') !== '1') {
+    localStorage.setItem('rm', matchMedia('(prefers-reduced-motion: reduce)').matches ? '1' : '0');
+    localStorage.setItem('studio-animation-v1', '1');
+  }
+  var savedTheme = localStorage.getItem('theme');
+  document.documentElement.dataset.theme = ['dark', 'light'].includes(savedTheme) ? savedTheme : 'dark';
+  document.documentElement.classList.toggle('rm', localStorage.getItem('rm') !== '0');
+} catch (e) {}
+// Resolve the public page and preview image when served at its final address.
+if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
+  var publicPage = new URL(location.pathname, location.origin).href;
+  var canonical = document.createElement('link'); canonical.rel = 'canonical'; canonical.href = publicPage; document.head.appendChild(canonical);
+  var ogUrl = document.createElement('meta'); ogUrl.setAttribute('property', 'og:url'); ogUrl.content = publicPage; document.head.appendChild(ogUrl);
+  document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (meta) { meta.content = new URL('assets/og.jpg', document.baseURI).href; });
+}
+</script>
+</head>
+<body class="mode-site">
+<a class="skip-link" href="#site">Pular para o conteúdo</a>
+
+<div id="mesh" aria-hidden="true"><i></i><i></i><i></i></div>
+<canvas id="bg3d" aria-hidden="true"></canvas>
+<div id="cursor" aria-hidden="true"><i class="cursor-dot"></i><i class="cursor-ring"></i></div>
+<div id="progress" aria-hidden="true"></div>
+<main id="site" tabindex="-1"></main>
+
+<header id="topbar">
+  <a class="brand" href="#hero" aria-label="Rafael Carvalho, início">&lt;RC/&gt; <b id="brandName">Rafael Carvalho</b></a>
+  <nav id="siteNav" class="sitenav" aria-label="Seções"></nav>
+  <button id="btnMode" class="pbtn ghost" aria-controls="studio" aria-pressed="false">Explorar estúdio</button>
+  <nav class="tools">
+    <button id="btnLang" class="pbtn" title="PT / EN">PT</button>
+    <button id="btnTheme" class="pbtn" title="Tema / Theme" aria-label="Tema">☀</button>
+    <button id="btnMotion" class="pbtn" title="Reduzir movimento / Reduce motion" aria-label="Reduzir movimento" aria-pressed="false">◎</button>
+    <button id="btnMenu" class="pbtn burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+  </nav>
+</header>
+<div id="mobileMenu" hidden><nav id="mobileNav" aria-label="Seções (menu)"></nav></div>
+<button id="toTop" class="pbtn" aria-label="Voltar ao topo">↑</button>
+
+
+<div id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="demo-title">
+    <button id="modalClose" class="pbtn close" aria-label="Fechar">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<noscript><div class="nojs"><h1>Rafael Carvalho</h1><p>Desenvolvedor Full Stack · Angular, React Native e Node.js</p><p>Projetos: Uply (<a href="https://uplyapp.com.br">uplyapp.com.br</a>), DFinanceiro (<a href="https://finfat.com.br">finfat.com.br</a>) e <a href="https://itsm.nous.dev.br">Nous</a>.</p><p>Contato: <a href="mailto:rafaelsancar@gmail.com">rafaelsancar@gmail.com</a> · <a href="https://www.linkedin.com/in/rafael-sancar-991b01346">LinkedIn</a> · <a href="assets/Rafael-Carvalho-Curriculo.pdf">Currículo (PDF)</a></p><p>Ative o JavaScript para ver o portfólio interativo.</p></div></noscript>
+
+<script defer src="js/data.js?v=7"></script>
+<script defer src="js/tech-icons.js?v=2"></script>
+<script defer src="js/bg3d.js?v=4"></script>
+<script defer src="js/project-art.js?v=1"></script>
+<script defer src="js/app.js?v=22"></script>
+<script defer src="js/site-fx.js?v=5"></script>
+<script defer src="js/studio-atlas.js?v=1"></script>
+<script defer src="js/studio-motion-atlas.js?v=3"></script>
+<script defer src="js/studio-intro.js?v=5"></script>
+<script defer src="js/studio-world.js?v=5"></script>
+<script defer src="js/studio.js?v=5"></script>
+<script defer src="js/boot.js"></script>
+</body>
+</html>
