@@ -2,7 +2,7 @@
 
 Portfólio pessoal com projetos e demonstrações interativas, feito com HTML, CSS e JavaScript.
 
-- Site: https://fessbtecnologia.github.io/portfolio/
+- Site: https://rafaelsancar.github.io/portfolio/
 - Código do site: `site/`
 
 ## Visualizar localmente
