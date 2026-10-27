@@ -1,0 +1,36 @@
+/* Assets decorativos do modo normal: ícones das techs e rabiscos. */
+
+/* ---- ícones das tecnologias ---- */
+.ti { display: inline-block; width: 1.15em; height: 1.15em; flex: none; background: var(--tc, currentColor); -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.mq-pill i.ti { width: 1.25em; height: 1.25em; border-radius: 0; box-shadow: none; background: var(--tc); }
+.tico { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 14px; border-radius: 14px; background: color-mix(in srgb, var(--tc) 14%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 35%, var(--line)); transition: transform .35s var(--ease), box-shadow .35s; }
+.tico .ti { width: 24px; height: 24px; }
+.tech:hover .tico { transform: translateY(-3px) rotate(-6deg) scale(1.08); box-shadow: 0 10px 26px -8px var(--tc); }
+
+#site .blk { position: relative; }
+
+/* ---- rabiscos desenhados à mão (traço que se desenha ao entrar na tela) ---- */
+.doodle { position: absolute; fill: none; stroke: var(--cy); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; overflow: visible; }
+.doodle.rv, .doodle.rv.in { opacity: 1; transform: none; }
+.doodle path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.doodle.in path { animation: scribble 1.5s var(--ease) forwards; } .doodle.in path:nth-child(2) { animation-delay: .9s; animation-duration: .6s; }
+@keyframes scribble { to { stroke-dashoffset: 0; } }
+.dl-under { position: static; display: block; width: clamp(150px, 20vw, 240px); margin: 6px 0 18px; }
+.dl-spark { width: 38px; height: 38px; top: 8%; right: 6%; stroke: var(--mg); } .dl-spark.in { animation: twinkle 3s ease-in-out 1.6s infinite; }
+@keyframes twinkle { 50% { transform: scale(1.25) rotate(18deg); } }
+.dl-hero { width: 96px; left: 2%; bottom: 22%; stroke: var(--vi); } .dl-cta { top: 22px; right: 28px; }
+.dl-arrow { height: auto; } .dl-loop { width: 120px; top: auto; bottom: 16px; left: 5%; stroke: var(--vi); }
+
+html.rm .doodle path { stroke-dashoffset: 0; animation: none !important; }
+@media (max-width: 900px) { .dl-loop, .dl-hero { display: none; } }
+
+#site { overflow-x: clip; }
+
+.ti-c { background: var(--bi) center / contain no-repeat; -webkit-mask: none; mask: none; }
+.ti-c.wide { width: 1.9em; }
+.mq-pill i.ti-c { background: var(--bi) center / contain no-repeat; }
+.mq-pill { gap: 8px; }
+.tico { width: 50px; height: 50px; gap: 3px; } .tico .ti { width: 26px; height: 26px; } .tico .ti-c.wide { width: 34px; }
+.tico:has(.ti + .ti) .ti { width: 20px; height: 20px; }
+.tech:hover .tico { box-shadow: 0 10px 26px -10px var(--tc); }
+.mq-pill i.ti-c.wide { width: 2.3em; }

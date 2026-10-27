@@ -1,0 +1,8 @@
+Use case: identity-preserve, animation sprite sheet.
+Reference: the exact existing 3D game character. Preserve his recognizable adult face, medium-brown skin, short dark curly hair, rectangular dark glasses, goatee, navy jacket, cream graphic T-shirt, chain, red wristband, pale jeans and blue-white sneakers. Same stylized 3D render quality and warm/cool studio lighting.
+Deliver ONE production transparent sprite sheet with EXACTLY TWELVE distinct full-body frames arranged FOUR COLUMNS and THREE ROWS. Uniform equal tall cells; same character height, body proportions, camera and planted shoe baseline in every cell. Entire head, fingers, laptop and both shoes inside each cell with ample transparent margins. No overlap between cells.
+Camera: front three-quarter angle looking toward viewer. He holds a silver laptop securely against his torso in his LEFT arm throughout; his RIGHT arm (red wristband) is free to gesture.
+ROW 1 (four sequential frames): greeting wave, hand raises, palm outward, gentle wave right, hand returns part-way down.
+ROW 2 (four sequential frames): presenting a monitor to his right, hand lifts, elbow extends, open palm pointing toward screen RIGHT, relaxed presenting hold. Do not add a monitor.
+ROW 3 (four sequential frames): small joyful success gesture, fist lifts near shoulder, confident fist pump, smiling held fist, relaxed return. Feet planted in all gestures.
+Only change the free arm, subtle facial expression and shoulders; preserve the rest identically across frames. No scene, floor, ground shadow, lettering, numbers, labels, separators, watermark, extra people or extra limbs. Genuine transparent alpha. Intended for an interactive portfolio game introduction and object interactions.

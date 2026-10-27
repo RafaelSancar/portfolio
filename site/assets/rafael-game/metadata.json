@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-27",
+  "tool": "Built-in image_gen",
+  "use_case": "style-transfer with identity preservation",
+  "references": [
+    "C:/Users/rafae/Downloads/Gemini_Generated_Image_hshjwthshjwthshj.jpg",
+    "C:/Users/rafae/Downloads/Gemini_Generated_Image_p3pfmfp3pfmfp3pf.jpg"
+  ],
+  "selected_reference": "Full-body first image",
+  "size": [
+    937,
+    1678
+  ],
+  "alpha": true,
+  "processing": "Original RGBA preserved. WebP conversion and proportional downscaling only.",
+  "original": "hero.png",
+  "responsive": [
+    "hero-640.webp",
+    "hero.webp"
+  ],
+  "prompt": "prompt.txt",
+  "replaces": "assets/rafael-v3/hero-640.webp in the portfolio hero; previous files preserved"
+}

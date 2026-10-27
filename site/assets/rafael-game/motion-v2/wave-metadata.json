@@ -1,0 +1,236 @@
+{
+  "source": "assets/rafael-game/motion-v2/wave.webp",
+  "width": 3072,
+  "height": 2560,
+  "referenceHeight": 512,
+  "frames": [
+    {
+      "x": 259,
+      "y": 88,
+      "w": 245,
+      "h": 512,
+      "anchorX": 125,
+      "baseline": 512,
+      "sourceBounds": [
+        90,
+        39,
+        265,
+        405
+      ]
+    },
+    {
+      "x": 1026,
+      "y": 88,
+      "w": 246,
+      "h": 512,
+      "anchorX": 126,
+      "baseline": 512,
+      "sourceBounds": [
+        323,
+        39,
+        499,
+        405
+      ]
+    },
+    {
+      "x": 1762,
+      "y": 88,
+      "w": 278,
+      "h": 512,
+      "anchorX": 158,
+      "baseline": 512,
+      "sourceBounds": [
+        539,
+        39,
+        738,
+        405
+      ]
+    },
+    {
+      "x": 2560,
+      "y": 88,
+      "w": 247,
+      "h": 512,
+      "anchorX": 128,
+      "baseline": 512,
+      "sourceBounds": [
+        806,
+        39,
+        982,
+        404
+      ]
+    },
+    {
+      "x": 257,
+      "y": 728,
+      "w": 249,
+      "h": 512,
+      "anchorX": 127,
+      "baseline": 512,
+      "sourceBounds": [
+        88,
+        422,
+        266,
+        788
+      ]
+    },
+    {
+      "x": 1015,
+      "y": 728,
+      "w": 259,
+      "h": 512,
+      "anchorX": 137,
+      "baseline": 512,
+      "sourceBounds": [
+        316,
+        422,
+        501,
+        788
+      ]
+    },
+    {
+      "x": 1751,
+      "y": 728,
+      "w": 292,
+      "h": 512,
+      "anchorX": 169,
+      "baseline": 512,
+      "sourceBounds": [
+        533,
+        423,
+        741,
+        788
+      ]
+    },
+    {
+      "x": 2515,
+      "y": 728,
+      "w": 292,
+      "h": 512,
+      "anchorX": 173,
+      "baseline": 512,
+      "sourceBounds": [
+        777,
+        422,
+        986,
+        788
+      ]
+    },
+    {
+      "x": 251,
+      "y": 1368,
+      "w": 255,
+      "h": 512,
+      "anchorX": 133,
+      "baseline": 512,
+      "sourceBounds": [
+        83,
+        803,
+        267,
+        1172
+      ]
+    },
+    {
+      "x": 1021,
+      "y": 1368,
+      "w": 253,
+      "h": 512,
+      "anchorX": 131,
+      "baseline": 512,
+      "sourceBounds": [
+        318,
+        804,
+        500,
+        1172
+      ]
+    },
+    {
+      "x": 1794,
+      "y": 1368,
+      "w": 250,
+      "h": 512,
+      "anchorX": 126,
+      "baseline": 512,
+      "sourceBounds": [
+        562,
+        804,
+        742,
+        1172
+      ]
+    },
+    {
+      "x": 2560,
+      "y": 1368,
+      "w": 250,
+      "h": 512,
+      "anchorX": 128,
+      "baseline": 512,
+      "sourceBounds": [
+        807,
+        806,
+        985,
+        1171
+      ]
+    },
+    {
+      "x": 245,
+      "y": 2008,
+      "w": 270,
+      "h": 512,
+      "anchorX": 139,
+      "baseline": 512,
+      "sourceBounds": [
+        88,
+        1186,
+        266,
+        1523
+      ]
+    },
+    {
+      "x": 1019,
+      "y": 2008,
+      "w": 265,
+      "h": 512,
+      "anchorX": 133,
+      "baseline": 512,
+      "sourceBounds": [
+        326,
+        1187,
+        500,
+        1523
+      ]
+    },
+    {
+      "x": 1789,
+      "y": 2008,
+      "w": 265,
+      "h": 512,
+      "anchorX": 131,
+      "baseline": 512,
+      "sourceBounds": [
+        566,
+        1187,
+        740,
+        1523
+      ]
+    },
+    {
+      "x": 2557,
+      "y": 2008,
+      "w": 261,
+      "h": 512,
+      "anchorX": 131,
+      "baseline": 512,
+      "sourceBounds": [
+        811,
+        1187,
+        982,
+        1523
+      ]
+    }
+  ],
+  "frameCount": 16,
+  "tool": "Built-in image_gen",
+  "prompt": "wave-prompt.txt",
+  "packing": "Non-destructive silhouette extraction, proportional resizing, hip anchor and foot baseline normalization. Original generated sheets preserved."
+}

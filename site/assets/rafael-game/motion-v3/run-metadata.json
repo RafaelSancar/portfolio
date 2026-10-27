@@ -1,0 +1,92 @@
+{
+  "width": 1254,
+  "height": 1254,
+  "frames": [
+    {
+      "x": 28,
+      "y": 26,
+      "w": 345,
+      "h": 563,
+      "pixels": 77006,
+      "anchorX": 177.5,
+      "baseline": 563,
+      "referenceHeight": 563
+    },
+    {
+      "x": 351,
+      "y": 31,
+      "w": 313,
+      "h": 561,
+      "pixels": 69451,
+      "anchorX": 163.75,
+      "baseline": 561,
+      "referenceHeight": 561
+    },
+    {
+      "x": 699,
+      "y": 32,
+      "w": 233,
+      "h": 556,
+      "pixels": 66534,
+      "anchorX": 121.0,
+      "baseline": 556,
+      "referenceHeight": 556
+    },
+    {
+      "x": 936,
+      "y": 39,
+      "w": 302,
+      "h": 544,
+      "pixels": 69703,
+      "anchorX": 194.75,
+      "baseline": 544,
+      "referenceHeight": 544
+    },
+    {
+      "x": 15,
+      "y": 634,
+      "w": 399,
+      "h": 530,
+      "pixels": 76244,
+      "anchorX": 197.5,
+      "baseline": 530,
+      "referenceHeight": 530
+    },
+    {
+      "x": 365,
+      "y": 636,
+      "w": 303,
+      "h": 561,
+      "pixels": 67468,
+      "anchorX": 149.25,
+      "baseline": 561,
+      "referenceHeight": 561
+    },
+    {
+      "x": 649,
+      "y": 636,
+      "w": 338,
+      "h": 568,
+      "pixels": 68494,
+      "anchorX": 161.75,
+      "baseline": 568,
+      "referenceHeight": 568
+    },
+    {
+      "x": 939,
+      "y": 641,
+      "w": 314,
+      "h": 556,
+      "pixels": 67296,
+      "anchorX": 181.0,
+      "baseline": 556,
+      "referenceHeight": 556
+    }
+  ],
+  "source": "assets/rafael-game/run.webp",
+  "tool": "Built-in image_gen",
+  "prompt": "assets/rafael-game/run-prompt.txt",
+  "referenceHeight": 558.5,
+  "frameCount": 8,
+  "sequence": "Original coherent cycle; mismatched generated interleaves removed."
+}

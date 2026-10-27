@@ -1,0 +1,17 @@
+{
+  "totalFrames": 80,
+  "previousFrames": 28,
+  "movements": [
+    "walk",
+    "run",
+    "wave",
+    "present",
+    "celebrate"
+  ],
+  "framesPerMovement": 16,
+  "sourceNotes": {
+    "walk": "8 original + 8 selected newly generated poses",
+    "run": "8 original + 8 selected newly generated poses",
+    "gestures": "16 newly generated poses per gesture"
+  }
+}

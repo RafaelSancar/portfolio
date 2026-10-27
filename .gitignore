@@ -1,0 +1,11 @@
+/*
+!/.gitignore
+!/README.md
+!/site/
+!/.github/
+
+.DS_Store
+Thumbs.db
+.env
+.env.*
+node_modules/
