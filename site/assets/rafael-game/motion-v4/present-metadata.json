@@ -1,0 +1,422 @@
+{
+  "source": "assets/rafael-game/motion-v4/present.webp",
+  "width": 1536,
+  "height": 2688,
+  "referenceHeight": 360,
+  "frames": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        78,
+        8,
+        203,
+        244
+      ],
+      "sourceCell": 0,
+      "pixels": 16118
+    },
+    {
+      "x": 384,
+      "y": 0,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        324,
+        8,
+        449,
+        244
+      ],
+      "sourceCell": 1,
+      "pixels": 15871
+    },
+    {
+      "x": 768,
+      "y": 0,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        575,
+        8,
+        699,
+        244
+      ],
+      "sourceCell": 2,
+      "pixels": 15583
+    },
+    {
+      "x": 0,
+      "y": 2240,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        77,
+        1288,
+        202,
+        1523
+      ],
+      "sourceCell": 20,
+      "pixels": 15747
+    },
+    {
+      "x": 384,
+      "y": 2240,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        325,
+        1288,
+        452,
+        1523
+      ],
+      "sourceCell": 21,
+      "pixels": 15890
+    },
+    {
+      "x": 1152,
+      "y": 0,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        832,
+        8,
+        956,
+        244
+      ],
+      "sourceCell": 3,
+      "pixels": 15534
+    },
+    {
+      "x": 0,
+      "y": 448,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        79,
+        264,
+        203,
+        499
+      ],
+      "sourceCell": 4,
+      "pixels": 15582
+    },
+    {
+      "x": 384,
+      "y": 448,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        314,
+        264,
+        450,
+        499
+      ],
+      "sourceCell": 5,
+      "pixels": 15690
+    },
+    {
+      "x": 768,
+      "y": 448,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        558,
+        264,
+        703,
+        499
+      ],
+      "sourceCell": 6,
+      "pixels": 15977
+    },
+    {
+      "x": 1152,
+      "y": 448,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        805,
+        264,
+        959,
+        499
+      ],
+      "sourceCell": 7,
+      "pixels": 16232
+    },
+    {
+      "x": 0,
+      "y": 896,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        32,
+        521,
+        207,
+        756
+      ],
+      "sourceCell": 8,
+      "pixels": 16765
+    },
+    {
+      "x": 384,
+      "y": 896,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        280,
+        521,
+        456,
+        756
+      ],
+      "sourceCell": 9,
+      "pixels": 16929
+    },
+    {
+      "x": 768,
+      "y": 896,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        528,
+        520,
+        706,
+        756
+      ],
+      "sourceCell": 10,
+      "pixels": 16874
+    },
+    {
+      "x": 1152,
+      "y": 896,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        780,
+        521,
+        963,
+        756
+      ],
+      "sourceCell": 11,
+      "pixels": 17138
+    },
+    {
+      "x": 0,
+      "y": 1344,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        32,
+        778,
+        211,
+        1012
+      ],
+      "sourceCell": 12,
+      "pixels": 17145
+    },
+    {
+      "x": 384,
+      "y": 1344,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        277,
+        777,
+        461,
+        1012
+      ],
+      "sourceCell": 13,
+      "pixels": 17353
+    },
+    {
+      "x": 768,
+      "y": 1344,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        539,
+        777,
+        710,
+        1012
+      ],
+      "sourceCell": 14,
+      "pixels": 16938
+    },
+    {
+      "x": 1152,
+      "y": 1344,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        804,
+        777,
+        966,
+        1012
+      ],
+      "sourceCell": 15,
+      "pixels": 16715
+    },
+    {
+      "x": 0,
+      "y": 1792,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        56,
+        1034,
+        206,
+        1268
+      ],
+      "sourceCell": 16,
+      "pixels": 16200
+    },
+    {
+      "x": 384,
+      "y": 1792,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        304,
+        1033,
+        456,
+        1268
+      ],
+      "sourceCell": 17,
+      "pixels": 16423
+    },
+    {
+      "x": 768,
+      "y": 1792,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        566,
+        1033,
+        711,
+        1268
+      ],
+      "sourceCell": 18,
+      "pixels": 16316
+    },
+    {
+      "x": 1152,
+      "y": 1792,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        833,
+        1033,
+        963,
+        1268
+      ],
+      "sourceCell": 19,
+      "pixels": 16676
+    },
+    {
+      "x": 768,
+      "y": 2240,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        580,
+        1288,
+        707,
+        1523
+      ],
+      "sourceCell": 22,
+      "pixels": 16503
+    },
+    {
+      "x": 1152,
+      "y": 2240,
+      "w": 384,
+      "h": 448,
+      "anchorX": 192,
+      "baseline": 416,
+      "referenceHeight": 360,
+      "sourceBounds": [
+        834,
+        1288,
+        963,
+        1523
+      ],
+      "sourceCell": 23,
+      "pixels": 16356
+    }
+  ],
+  "frameCount": 24,
+  "isolated": true,
+  "fps": 14,
+  "tool": "Built-in image_gen",
+  "prompt": "prompts.json",
+  "packing": "Each generated full-body pose isolated into its own padded cell, proportional scale, hip anchor and foot baseline normalization. No neighbouring sprites or opaque backgrounds."
+}

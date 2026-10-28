@@ -12,3 +12,8 @@ window.PROJECT_ART = {
       <rect x="98" y="14" width="120" height="16" rx="5" fill="#2b2f33"/><g><rect x="98" y="42" width="70" height="44" rx="8" fill="#fff"/><rect x="176" y="42" width="70" height="44" rx="8" fill="#fff"/><rect x="254" y="42" width="62" height="44" rx="8" fill="#fff"/></g><rect x="106" y="66" width="30" height="12" rx="4" fill="#2b2f33"/><rect x="184" y="66" width="30" height="12" rx="4" fill="#0d7a56"/><rect x="262" y="66" width="30" height="12" rx="4" fill="#f37245"/>
       <rect x="98" y="98" width="218" height="112" rx="8" fill="#fff"/><g fill="#eceff0"><rect x="106" y="124" width="202" height="8" rx="4"/><rect x="106" y="142" width="202" height="8" rx="4"/><rect x="106" y="160" width="202" height="8" rx="4"/></g><rect x="106" y="108" width="50" height="8" rx="4" fill="#9a7b2f"/><rect x="268" y="124" width="40" height="8" rx="4" fill="#0d7a56"/><rect x="268" y="142" width="40" height="8" rx="4" fill="#9a7b2f"/><rect x="268" y="160" width="40" height="8" rx="4" fill="#b42318"/><g fill="#6c63ff"><rect x="112" y="186" width="14" height="18" rx="3"/><rect x="132" y="176" width="14" height="28" rx="3"/><rect x="152" y="168" width="14" height="36" rx="3"/><rect x="172" y="180" width="14" height="24" rx="3"/></g></g></svg>`
   };
+
+// Keep illustrated interface copy in the same language as the surrounding page.
+window.projectArt = (id, lang) => lang === 'en'
+  ? window.PROJECT_ART[id].replace('>O que você<','>What do you<').replace('>precisa?<','>need?<')
+  : window.PROJECT_ART[id];
