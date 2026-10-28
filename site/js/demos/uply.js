@@ -9,17 +9,10 @@ window.Demos.uply = function (host, lang) {
   const label = value => pt ? value : (labels[value] || value);
   const brl = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
   const esc = (s) => String(s).replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]));
-  const CATS = [
-    ['Elétrica', L('Tomadas, solar e automação', 'Outlets, solar, automation'), ['Eletricista', 'Energia solar', 'Automação residencial']],
-    ['Hidráulica', L('Vazamento, torneira, chuveiro', 'Leaks, taps, showers'), ['Encanador', 'Desentupidor']],
-    ['Pintura', L('Paredes, portas e papel', 'Walls, doors, wallpaper'), ['Pintor', 'Papel de parede']],
-    ['Marcenaria', L('Móveis, madeira e estofado', 'Furniture and wood'), ['Marceneiro', 'Montador de móveis']],
-    ['Climatização', L('Ar-condicionado e eletros', 'A/C and appliances'), ['Ar-condicionado', 'Reparo de eletrodomésticos']],
-    ['Automotivo', L('Pneu, estepe e borracharia', 'Tires and spare'), ['Borracheiro']]
-  ];
+  const SERVICES = [['Eletricista', 'Tomadas e iluminação'], ['Encanador', 'Vazamento e torneira'], ['Borracheiro', 'Pneu e estepe']];
   const STEPS = [L('Pagamento','Payment'),L('Confirmado','Confirmed'),L('Em execução','In progress'),L('Aprovação','Approval'),L('Concluído','Completed')];
   const CSTAT = { pending_payment: L('Aguardando Pagamento', 'Awaiting payment'), active: L('Em andamento', 'In progress'), delivered: L('Aguardando aprovação', 'Awaiting approval'), revision: L('Em ajuste', 'In revision'), completed: L('Concluído', 'Completed') };
-  const S = { role: 'client', scr: { client: 'home' }, hist: { client: [] }, anim: '', req: null, msgs: [], prop: null, con: null, stars: 0, cur: 0, modal: null, filter: 'open', cat: 'Todas', q: '', prof: 'Eletricista', title: '', desc: '', urg: 'Média', err: '', pt: null, unread: 0 };
+  const S = { role: 'client', scr: { client: 'home' }, hist: { client: [] }, anim: '', req: null, msgs: [], prop: null, con: null, stars: 0, cur: 0, modal: null, filter: 'open', prof: 'Eletricista', title: '', desc: '', err: '', pt: null, unread: 0 };
 
   /* ---------- ações de domínio (usadas pela interface e pelo guia automático) ---------- */
   const say = (m, k) => { S.pt = [m, k || 'ok']; };
@@ -27,7 +20,7 @@ window.Demos.uply = function (host, lang) {
   function back() { const h = S.hist[S.role]; S.scr[S.role] = h.pop() || 'home'; S.anim = 'back'; }
   const later = (ms, fn) => setTimeout(() => { if (host.isConnected && host.querySelector('.up-phone')) { fn(); draw(); } }, ms);
   function createRequest(t, d) {
-    S.req = { title: t, desc: d, urg: S.urg, prof: S.prof, status: 'open' }; S.msgs = []; S.prop = null; S.con = null; S.stars = 0; S.typing = true;
+    S.req = { title: t, desc: d, prof: S.prof, status: 'open' }; S.msgs = []; S.prop = null; S.con = null; S.stars = 0; S.typing = true;
     S.msgs.push({ from: 'sys', t: L('Pedido enviado. Parceiros da sua região foram avisados.', 'Request sent. Partners in your area were notified.') });
     say(L('Pedido enviado', 'Request sent'));
     const r = S.req;
@@ -76,7 +69,7 @@ window.Demos.uply = function (host, lang) {
 
   function chatView(role) {
     const mine = role === 'client' ? 'client' : 'partner', p = S.prop;
-    const bubbles = S.msgs.map((m) => (m.from === 'sys' ? `<div class="bub sys">${m.t}</div>` : `<div class="bub ${m.from === mine ? 'me' : 'you'}">${m.t}</div>`)).join('');
+    const bubbles = S.msgs.slice(-3).map((m) => (m.from === 'sys' ? `<div class="bub sys">${m.t}</div>` : `<div class="bub ${m.from === mine ? 'me' : 'you'}">${m.t}</div>`)).join('');
     const card = p ? `<div class="up-prop"><div class="r"><b>${L('Proposta', 'Proposal')}</b>${p.status === 'pending' ? badge(L('Aguardando resposta', 'Awaiting reply'), 'w') : p.status === 'accepted' ? badge(L('Aceita', 'Accepted'), 'g') : badge(L('Recusada', 'Declined'), 'r')}</div>
       <div class="val">${brl(p.value)}</div><small>${L('Data: amanhã 14:00', 'Date: tomorrow 2pm')}</small>${p.note ? `<small>${esc(p.note)}</small>` : ''}
       ${p.status === 'pending' && role === 'client' ? `<div class="r2"><button class="up-ghost" data-a="refuse">${L('Recusar', 'Decline')}</button><button class="up-ok" data-a="accept">${L('Aceitar', 'Accept')}</button></div>` : ''}</div>` : '';
@@ -95,25 +88,21 @@ window.Demos.uply = function (host, lang) {
           ${S.con ? `<div class="up-banner" data-a="nav" data-r="client" data-s="contract"><small>${L('CONTRATO', 'CONTRACT')}</small><b>${esc(S.req.title)}</b><span>${CSTAT[S.con.status]}</span></div>` : ''}
           ${S.con && S.con.status === 'delivered' ? `<div class="up-act" data-a="nav" data-r="client" data-s="contract"><b>${L('Confirmar entrega', 'Confirm delivery')}</b><small>${L('Toque para aprovar ou pedir ajuste', 'Tap to approve or request adjustment')}</small></div>` : ''}
           ${S.con && S.con.status === 'completed' && !S.stars ? `<div class="up-act" data-a="nav" data-r="client" data-s="review"><b>${L('Avaliar serviço', 'Rate service')}</b><small>${L('Toque para dar uma nota ao atendimento', 'Tap to rate the service')}</small></div>` : ''}
-          <div class="up-sec"><b>${L('Serviços', 'Services')}</b></div><div class="up-grid">${[['Eletricista', 'Tomadas e iluminação'], ['Encanador', 'Vazamento e torneira'], ['Borracheiro', 'Pneu e estepe'], ['Outros', 'Ver o catálogo']].map(([a, b]) => `<div class="up-svc" data-a="pick" data-p="${a}"><b>${label(a)}</b><small>${label(b)}</small></div>`).join('')}</div></div>`;
+          <div class="up-sec"><b>${L('Serviços', 'Services')}</b></div><div class="up-grid">${SERVICES.map(([a, b]) => `<div class="up-svc" data-a="pick" data-p="${a}"><b>${label(a)}</b><small>${label(b)}</small></div>`).join('')}</div></div>`;
       },
       catalog() {
-        const q = S.q.toLowerCase(), groups = CATS.filter((c) => S.cat === 'Todas' || S.cat === c[0]).map((c) => [c, c[2].filter((p) => label(p).toLowerCase().includes(q))]).filter((g) => g[1].length);
-        return hero(L('Escolha o<br>serviço', 'Choose the<br>service'), L('Toque em uma profissão para pedir', 'Tap a profession to request'), true) + `<div class="up-body"><input class="up-in" data-q placeholder="${L('Buscar serviço', 'Search service')}" value="${esc(S.q)}">
-          <div class="up-chips">${['Todas', ...CATS.map((c) => c[0])].map((c) => `<span class="${S.cat === c ? 'on' : ''}" data-a="cat" data-c="${c}">${label(c)}</span>`).join('')}</div>
-          ${groups.map(([c, ps]) => `<div class="up-sec"><b>${label(c[0])}</b></div>${ps.map((p) => `<div class="up-row" data-a="pick" data-p="${p}"><span>${label(p)}</span><small>${c[1]}</small>›</div>`).join('')}`).join('') || `<div class="up-empty"><b>${L('Nada neste filtro', 'Nothing here')}</b><a data-a="clear">${L('Limpar filtros', 'Clear filters')}</a></div>`}</div>`;
+        return hero(L('Escolha o<br>serviço', 'Choose the<br>service'), L('Toque em uma profissão para pedir', 'Tap a profession to request'), true) + `<div class="up-body">${SERVICES.map(([p, d]) => `<div class="up-row" data-a="pick" data-p="${p}"><span>${label(p)}</span><small>${label(d)}</small>›</div>`).join('')}</div>`;
       },
       new() {
         return hero(L('Pedir<br>serviço', 'Request<br>service'), L('Profissão: ', 'Profession: ') + label(S.prof), true) + `<div class="up-body"><div class="up-sec"><b>${L('Local do serviço', 'Service location')}</b></div><div class="up-card sel">Rua das Flores, 120 — Centro<small>São Paulo / SP · ${L('Endereço encontrado', 'Address found')}</small></div>
           <label class="up-lb">${L('Título', 'Title')}</label><input class="up-in" data-f="title" placeholder="${L('Ex: Instalação de chuveiro', 'E.g. Shower installation')}" value="${esc(S.title)}">
           <label class="up-lb">${L('Descrição', 'Description')}</label><textarea class="up-in" rows="3" data-f="desc" placeholder="${L('O que você precisa?', 'What do you need?')}">${esc(S.desc)}</textarea>
-          <label class="up-lb">${L('Urgência', 'Urgency')}</label><div class="up-seg">${['Baixa', 'Média', 'Alta'].map((u) => `<span class="${S.urg === u ? 'on' : ''}" data-a="urg" data-u="${u}">${label(u)}</span>`).join('')}</div>
-          <label class="up-lb">${L('Fotos', 'Photos')} 0/5</label><div class="up-photo">${L('+ Foto','+ Photo')}</div>${S.err ? `<p class="up-err">${S.err}</p>` : ''}${cta(L('Enviar pedido', 'Send request'), 'send')}</div>`;
+          ${S.err ? `<p class="up-err">${S.err}</p>` : ''}${cta(L('Enviar pedido', 'Send request'), 'send')}</div>`;
       },
       orders() {
         const f = S.filter, list = S.req ? [S.req] : [], vis = list.filter((r) => f === 'all' || (f === 'open' && r.status !== 'completed') || (f === 'done' && r.status === 'completed'));
         return hero(L('Pedidos', 'Orders'), '', true) + `<div class="up-body"><div class="up-chips">${[['open', L('Em aberto', 'Open')], ['done', L('Concluídas', 'Completed')], ['all', L('Todos', 'All')]].map(([k, l]) => `<span class="${f === k ? 'on' : ''}" data-a="flt" data-f="${k}">${l}</span>`).join('')}</div>
-          ${vis.map((r) => `<div class="up-card clk" data-a="nav" data-r="client" data-s="${S.con ? 'contract' : 'chat'}"><div class="r"><b>${esc(r.title)}</b>${reqBadge(r.status)}</div><small>${label(r.prof)} · ${r.urg === 'Alta' ? badge(L('Urgente', 'Urgent'), 'r') : label(r.urg)}</small><small class="cta-t">${S.con ? (S.con.status === 'pending_payment' ? L('Aguardando pagamento', 'Awaiting payment') : L('Acompanhar serviço', 'Track service')) : S.prop ? L('Falar com o profissional', 'Talk to the professional') : L('Aguardando profissional', 'Waiting for a professional')} ›</small></div>`).join('') || `<div class="up-empty"><b>${L('Nenhum pedido ainda', 'No orders yet')}</b>${L('Peça um serviço e acompanhe tudo por aqui — do primeiro contato à conclusão.', 'Request a service and track everything here.')}</div>`}</div>`;
+          ${vis.map((r) => `<div class="up-card clk" data-a="nav" data-r="client" data-s="${S.con ? 'contract' : 'chat'}"><div class="r"><b>${esc(r.title)}</b>${reqBadge(r.status)}</div><small>${label(r.prof)}</small><small class="cta-t">${S.con ? (S.con.status === 'pending_payment' ? L('Aguardando pagamento', 'Awaiting payment') : L('Acompanhar serviço', 'Track service')) : S.prop ? L('Falar com o profissional', 'Talk to the professional') : L('Aguardando profissional', 'Waiting for a professional')} ›</small></div>`).join('') || `<div class="up-empty"><b>${L('Nenhum pedido ainda', 'No orders yet')}</b>${L('Peça um serviço e acompanhe tudo por aqui — do primeiro contato à conclusão.', 'Request a service and track everything here.')}</div>`}</div>`;
       },
       chat() { return S.req ? chatView('client') : hero(L('Conversas', 'Chats'), '', true) + `<div class="up-body"><div class="up-empty"><b>${L('Nenhuma conversa', 'No chats')}</b>${L('Faça um pedido para começar a negociar.', 'Make a request to start negotiating.')}</div></div>`; },
       contract() {
@@ -121,7 +110,7 @@ window.Demos.uply = function (host, lang) {
         const c = S.con, fee = c.value * 0.14;
         let btns = '';
         if (c.status === 'pending_payment') btns = cta(L('Pagar agora', 'Pay now'), 'nav', 'data-r="client" data-s="pay"');
-        if (c.status === 'active' || c.status === 'revision') btns = `<div class="up-working"><i></i>${c.status === 'revision' ? L('Carlos está fazendo o ajuste…', 'Carlos is making the adjustment…') : L('Carlos está executando o serviço…', 'Carlos is doing the job…')}</div><button class="up-ghost wide" data-a="nav" data-r="client" data-s="chat">${L('Abrir conversa', 'Open chat')}</button>`;
+        if (c.status === 'active' || c.status === 'revision') btns = `<div class="up-working" role="status"><i></i>${c.status === 'revision' ? L('Aguarde: o parceiro está ajustando o serviço.', 'Please wait: the partner is adjusting the service.') : L('Aguarde: o parceiro está realizando o serviço.', 'Please wait: the partner is carrying out the service.')}</div>`;
         if (c.status === 'delivered') btns = `${cta(L('Aprovar entrega', 'Approve delivery'), 'modal', 'data-m="approve"')}<button class="up-ghost wide" data-a="modal" data-m="adjust">${L('Solicitar ajuste', 'Request adjustment')}</button>`;
         if (c.status === 'completed') btns = S.stars ? `<p class="up-ok-t">★ ${S.stars}/5 — ${L('Avaliação enviada', 'Review sent')}</p>` : cta(L('Avaliar serviço', 'Rate service'), 'nav', 'data-r="client" data-s="review"');
         return hero(esc(S.req.title), CSTAT[c.status], true) + `<div class="up-body"><div class="up-stepper">${STEPS.map((x, i) => `<div class="stp ${i < c.step ? 'done' : i === c.step ? 'act' : ''}"><i>${i < c.step ? '✓' : i + 1}</i><span>${x}</span></div>`).join('')}</div>
@@ -149,10 +138,7 @@ window.Demos.uply = function (host, lang) {
     const c = host.querySelector('#upChat'); if (c) c.scrollTop = c.scrollHeight;
   }
 
-  host.oninput = (e) => {
-    if (e.target.matches('[data-q]')) { S.q = e.target.value; const pos = e.target.selectionStart; draw(); const i = host.querySelector('[data-q]'); i.focus(); i.setSelectionRange(pos, pos); }
-    else if (e.target.dataset.f) S[e.target.dataset.f] = e.target.value;
-  };
+  host.oninput = (e) => { if (e.target.dataset.f) S[e.target.dataset.f] = e.target.value; };
   host.onkeydown = (e) => { if (e.key === 'Enter' && e.target.id === 'upIn') { const b = host.querySelector('[data-a=say]'); if (b) act('say', b.dataset); } };
   host.onclick = (e) => { const b = e.target.closest('[data-a]'); if (b) act(b.dataset.a, b.dataset); };
 
@@ -160,11 +146,8 @@ window.Demos.uply = function (host, lang) {
     d = d || {};
     if (a === 'nav') go(d.r || S.role, d.s);
     else if (a === 'back') back();
-    else if (a === 'cat') S.cat = d.c;
-    else if (a === 'clear') { S.cat = 'Todas'; S.q = ''; }
     else if (a === 'flt') S.filter = d.f;
     else if (a === 'pick') { S.prof = d.p; go('client', 'new'); }
-    else if (a === 'urg') S.urg = d.u;
     else if (a === 'send') {
       if (!S.title.trim()) S.err = L('Informe um título para o pedido', 'Enter a title for the request');
       else if (!S.desc.trim()) S.err = L('Descreva o serviço desejado', 'Describe the service');

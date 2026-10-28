@@ -142,7 +142,11 @@ window.Demos.dara = function (host, lang) {
 
   function bellPanel() {
     const pend = os.filter((o) => o.s === 'PENDENTE').length, rej = os.filter((o) => o.s === 'REJEITADA').length;
-    return `<div class="nx-pop"><b>${L('Notificações', 'Notifications')}</b>${pend && can('approve') ? `<p>⏳ ${pend} ${L('OS aguardando aprovação', 'OS awaiting approval')}</p>` : ''}${rej && can('submit') ? `<p>✕ ${rej} ${L('OS rejeitada(s)', 'rejected OS')}</p>` : ''}${(!pend || !can('approve')) && (!rej || !can('submit')) ? `<p class="sub">${L('Você está em dia — sem notificações.', "You're all caught up — no notifications.")}</p>` : ''}</div>`;
+    const notices = [
+      pend && can('approve') ? `<div class="nx-notify-row"><span aria-hidden="true">⏳</span><div><b>${pend} ${L('OS aguardando aprovação', 'OS awaiting approval')}</b><small>${L('Revise a fila de pendentes quando puder.', 'Review the pending queue when you can.')}</small></div></div>` : '',
+      rej && can('submit') ? `<div class="nx-notify-row"><span aria-hidden="true">✕</span><div><b>${rej} ${L('OS rejeitada(s)', 'rejected OS')}</b><small>${L('Confira o motivo e ajuste o apontamento.', 'Check the reason and update the entry.')}</small></div></div>` : ''
+    ].filter(Boolean).join('');
+    return `<div class="nx-notify"><div class="nx-notify-card" role="dialog" aria-modal="true" aria-labelledby="nx-notify-title"><div class="nx-notify-head"><span class="nx-notify-mark" aria-hidden="true">🔔</span><div><small>${L('CENTRAL DE ATIVIDADE', 'ACTIVITY CENTER')}</small><h3 id="nx-notify-title">${L('Notificações', 'Notifications')}</h3></div><button class="nx-notify-close" data-close-bell aria-label="${L('Fechar notificações', 'Close notifications')}">✕</button></div>${notices || `<p class="nx-notify-empty">✓ ${L('Você está em dia — sem notificações.', "You're all caught up — no notifications.")}</p>`}<button class="nx-btn nx-notify-done" data-close-bell>${L('Entendi', 'Got it')}</button></div></div>`;
   }
 
   function draw() {
@@ -152,9 +156,10 @@ window.Demos.dara = function (host, lang) {
     host.innerHTML = `<div class="nx-app"><aside class="nx-rail"><div class="lg">${mark}<b>nous</b></div>
       <div class="nx-ctx"><small>${L('Perfil', 'Profile')}</small><select data-role>${Object.entries(ROLES).map(([k, v]) => `<option value="${k}" ${k === st.role ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
       <nav>${items.map((k) => `<button class="${st.page === k ? 'on' : ''}" data-pg="${k}"><i>${NAV[k][0]}</i>${NAV[k][1]}</button>`).join('')}</nav></aside>
-      <div class="nx-col"><header class="nx-top"><b>${NAV[st.page][1]}</b><span><button class="nx-bell" data-bell>🔔${bellN ? `<em>${bellN}</em>` : ''}</button></span>${st.bell ? bellPanel() : ''}</header><section class="nx-page">${pages[st.page]()}</section></div>${dialog()}<div class="dm-toasts"></div></div>`;
+      <div class="nx-col"><header class="nx-top"><b>${NAV[st.page][1]}</b><span><button class="nx-bell" data-bell aria-label="${L('Abrir notificações', 'Open notifications')}" aria-expanded="${st.bell}">🔔${bellN ? `<em>${bellN}</em>` : ''}</button></span></header><section class="nx-page">${pages[st.page]()}</section></div>${st.bell ? bellPanel() : ''}${dialog()}<div class="dm-toasts"></div></div>`;
     if (st.toast) { U.toast(host.querySelector('.nx-app'), st.toast[0], st.toast[1]); st.toast = null; }
     U.countAll(host);
+    if (st.bell) host.querySelector('.nx-notify-close')?.focus();
   }
 
   function submitOs(list, justText) {
@@ -178,7 +183,7 @@ window.Demos.dara = function (host, lang) {
   }
 
   host.onchange = (e) => {
-    if (e.target.matches('[data-role]')) { st.role = e.target.value; st.msg = ''; st.sel.clear(); st.pick2 = null; draw(); }
+    if (e.target.matches('[data-role]')) { st.role = e.target.value; st.msg = ''; st.sel.clear(); st.pick2 = null; st.bell = false; draw(); }
     if (e.target.dataset.chk) { e.target.checked ? st.sel.add(e.target.dataset.chk) : st.sel.delete(e.target.dataset.chk); }
   };
   host.ondragstart = (e) => { const c = e.target.closest('[data-card]'); if (c) { st.drag = c.dataset.card; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', st.drag); } catch (x) {} c.classList.add('dragging'); } };
@@ -189,6 +194,7 @@ window.Demos.dara = function (host, lang) {
     const t = e.target, q = (s) => t.closest(s);
     let b;
     if (q('[data-bell]')) { st.bell = !st.bell; return draw(); }
+    if (q('[data-close-bell]') || t.classList.contains('nx-notify')) { st.bell = false; draw(); host.querySelector('[data-bell]')?.focus(); return; }
     if ((b = q('[data-pg]'))) { st.page = b.dataset.pg; st.msg = ''; st.bell = false; return draw(); }
     if ((b = q('[data-card]'))) { st.pick2 = st.pick2 === b.dataset.card ? null : b.dataset.card; return draw(); }
     if ((b = q('[data-colhead]')) && st.pick2) { const n = st.pick2; return tryMove(n, b.dataset.colhead); }
@@ -214,7 +220,15 @@ window.Demos.dara = function (host, lang) {
     }
     if ((b = q('[data-baixa]'))) { const [k, id] = b.dataset.baixa.split(':'); st.dlg = { t: 'baixa', k, id: +id }; return draw(); }
     if (q('[data-okbaixa]')) { const d = st.dlg, arr = d.k === 'p' ? cpagar : creceber, c = arr.find((x) => x.id === d.id); if (d.k === 'p') { c.pago = c.prev; c.s = 'PAGA'; } else { c.rec = c.prev; c.s = 'RECEBIDA'; } st.dlg = null; say(d.k === 'p' ? L('Conta paga', 'Payable settled') : L('Recebimento registrado', 'Receipt registered')); return draw(); }
-    if (st.bell && !q('.nx-pop')) { st.bell = false; draw(); }
+  };
+  host.onkeydown = (e) => {
+    if (!st.bell) return;
+    if (e.key === 'Escape') { e.stopPropagation(); st.bell = false; draw(); host.querySelector('[data-bell]')?.focus(); }
+    if (e.key === 'Tab') {
+      const buttons = [...host.querySelectorAll('.nx-notify-card button')], first = buttons[0], last = buttons[buttons.length - 1];
+      if ((e.shiftKey && document.activeElement === first) || (!e.shiftKey && document.activeElement === last)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+      e.stopPropagation();
+    }
   };
   draw();
 };

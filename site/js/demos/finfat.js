@@ -46,8 +46,8 @@ window.Demos.finfat = function (host, lang) {
   const PARENT = { orcform: 'orc', pdvform: 'pdv', cform: 'clientes', pform: 'produtos' };
   function sidebar() {
     const cur = st.page === 'form' ? st.form.kind : (st.page === 'cform' || st.page === 'pform') ? st.cf.kind : (PARENT[st.page] || st.page);
-    return `<aside class="ff-side">${logo()}<nav><button class="ff-item ${st.page === 'dash' ? 'on' : ''}" data-go="dash">🏠 Dashboard</button>
-      ${MENU.map(([k, ic, lb, items]) => `<button class="ff-item grp" data-grp="${k}">${ic} ${lb}<span class="${st.open === k ? 'up' : ''}">⌄</span></button><div class="grp-items ${st.open === k ? 'open' : ''}" data-items="${k}"><div>${items.map((it) => `<button class="ff-item sub ${cur === it[0] ? 'on' : ''}" data-go="${it[0]}">${it[1]}</button>`).join('')}</div></div>`).join('')}
+    return `<aside class="ff-side" id="ff-demo-nav">${logo()}<nav><button class="ff-item ${st.page === 'dash' ? 'on' : ''}" data-go="dash"><span class="ff-nav-icon" aria-hidden="true">🏠</span><span class="ff-nav-label">Dashboard</span></button>
+      ${MENU.map(([k, ic, lb, items]) => `<button class="ff-item grp ${st.open === k ? 'group-on' : ''}" data-grp="${k}"><span class="ff-nav-icon" aria-hidden="true">${ic}</span><span class="ff-nav-label">${lb}</span><span class="ff-nav-chevron ${st.open === k ? 'up' : ''}">⌄</span></button><div class="grp-items ${st.open === k ? 'open' : ''}" data-items="${k}"><div>${items.map((it) => `<button class="ff-item sub ${cur === it[0] ? 'on' : ''}" data-go="${it[0]}">${it[1]}</button>`).join('')}</div></div>`).join('')}
       </nav><div class="ff-user"><span>R</span><div><b>Rafael</b><small>rafael@empresa.com</small></div><button data-go="login" title="${L('Sair','Sign out')}">⎋</button></div></aside>`;
   }
   function bellPanel() {
@@ -55,7 +55,9 @@ window.Demos.finfat = function (host, lang) {
     return `<div class="ff-pop"><b>${L('Atividade e anomalias', 'Activity and anomalies')}</b>${an.map((r) => `<div class="ff-note r"><b>${L('CONTA VENCIDA', 'OVERDUE')}</b>${esc(r.pessoa)} · ${brl(total(r))}</div>`).join('')}${db.log.slice(-4).reverse().map((l) => `<p class="lg">• ${esc(l)}</p>`).join('')}</div>`;
   }
   function topbar() {
-    return `<header class="ff-top">${logo()}<div class="ff-links"><span class="on" data-go="dash" role="link">Home</span></div><div class="ff-ico"><button class="bell" data-bell title="${L('Atividade e anomalias', 'Activity and anomalies')}">🔔<em>${overdue() > 9 ? '9+' : overdue()}</em></button><button data-dark title="${L('Tema', 'Theme')}">${st.dark ? '☀' : '☾'}</button></div>${st.bell ? bellPanel() : ''}</header>`;
+    const page = st.page === 'form' ? st.form.kind : st.page === 'cform' || st.page === 'pform' ? st.cf.kind : (PARENT[st.page] || st.page);
+    const title = { dash: 'Dashboard', clientes: L('Clientes', 'Clients'), produtos: L('Produtos', 'Products'), pagar: L('Contas a pagar', 'Accounts payable'), receber: L('Contas a receber', 'Accounts receivable'), orc: L('Orçamentos', 'Quotes'), vendas: L('Vendas NF', 'Invoice sales'), pdv: 'PDV' }[page] || 'Dashboard';
+    return `<header class="ff-top">${logo()}<span class="ff-top-title">${title}</span><div class="ff-ico"><button class="bell" data-bell title="${L('Atividade e anomalias', 'Activity and anomalies')}" aria-label="${L('Atividade e anomalias', 'Activity and anomalies')}">🔔<em>${overdue() > 9 ? '9+' : overdue()}</em></button><button data-dark title="${L('Tema', 'Theme')}" aria-label="${L('Alterar tema', 'Change theme')}">${st.dark ? '☀' : '☾'}</button></div>${st.bell ? bellPanel() : ''}</header>`;
   }
   const mkStat = (i, label, v, c, fm) => `<div class="ff-card stat ${c || ''}"><i>${i}</i><div><small>${label}</small><b data-count="${v}" data-fmt="${fm}">${fm === 'brl' ? brl(v) : v}</b></div></div>`;
 
@@ -170,13 +172,13 @@ window.Demos.finfat = function (host, lang) {
     if (st.toast) { U.toast(host.querySelector('.ff-app'), st.toast[0], st.toast[1]); st.toast = null; }
     U.countAll(host);
   }
-  const go = (p) => { if (p !== st.page) st.q = ''; st.page = p; st.bell = false; st.err = ''; st.pg = 1; if (p === 'pagar' || p === 'receber') st.open = 'fin'; if (['orc', 'vendas', 'pdv'].includes(p)) st.open = 'ven'; if (p === 'clientes' || p === 'produtos') st.open = 'cad'; draw(); };
+  const go = (p) => { if (p !== st.page) st.q = ''; st.page = p; st.bell = false; st.err = ''; st.pg = 1; if (p === 'dash') st.open = ''; if (p === 'pagar' || p === 'receber') st.open = 'fin'; if (['orc', 'vendas', 'pdv'].includes(p)) st.open = 'ven'; if (p === 'clientes' || p === 'produtos') st.open = 'cad'; draw(); };
 
   host.onclick = (e) => {
     const t = e.target, q = (s) => t.closest(s);
     let b;
     if ((b = q('[data-go]'))) return go(b.dataset.go);
-    if ((b = q('[data-grp]'))) { const k = b.dataset.grp, items = host.querySelector('[data-items="' + k + '"]'); st.open = st.open === k ? '' : k; host.querySelectorAll('.grp-items').forEach((el) => el.classList.toggle('open', el.dataset.items === st.open)); host.querySelectorAll('.ff-item.grp span').forEach((sp) => sp.classList.toggle('up', sp.parentNode.dataset.grp === st.open)); return; }
+    if ((b = q('[data-grp]'))) { const k = b.dataset.grp; if (matchMedia('(max-width:700px)').matches) return go(MENU.find(([key]) => key === k)[3][0][0]); st.open = k; host.querySelectorAll('.grp-items').forEach((el) => el.classList.toggle('open', el.dataset.items === st.open)); host.querySelectorAll('.ff-item.grp').forEach((item) => { item.classList.toggle('group-on', item.dataset.grp === st.open); item.querySelector('.ff-nav-chevron')?.classList.toggle('up', item.dataset.grp === st.open); }); return; }
     if (q('[data-na]')) return;
     if (q('[data-bell]')) { st.bell = !st.bell; return draw(false); }
     if (q('[data-dark]')) { document.getElementById('demoTheme').click(); return; }

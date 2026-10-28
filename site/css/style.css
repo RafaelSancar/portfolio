@@ -102,3 +102,30 @@ html.rm .pj-art svg {transform-origin:center;}
 @media(prefers-reduced-motion:reduce) {.hero-art picture,.pj-art svg {transform:none!important;}}
 
 @media(max-width:600px) {html[data-theme="light"] #bg3d {opacity:.05;}}
+
+/* Keep the portfolio controls on one line while the mobile browser scrolls. */
+@media(max-width:700px) {
+  .mode-site #topbar {display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;flex-wrap:nowrap;gap:6px;top:max(8px,env(safe-area-inset-top));width:calc(100% - 20px);min-height:54px;padding:6px 8px;}
+  .mode-site #topbar .brand {font-size:14px;line-height:1;}
+  .mode-site #topbar #btnMode {min-width:0;max-width:100%;min-height:36px;padding:6px 8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:9px;}
+  .mode-site #topbar .tools {min-width:0;margin:0;justify-self:end;gap:3px;}
+  .mode-site #topbar .tools .pbtn {width:34px;min-width:34px;height:36px;min-height:36px;padding:4px;font-size:12px;}
+  #mobileMenu {top:calc(max(8px,env(safe-area-inset-top)) + 62px);}
+}
+
+/* Bring the neural background forward without competing with the content. */
+#bg3d {opacity:.23;}
+html[data-theme="light"] #bg3d {opacity:.26;}
+@media(max-width:600px) {
+  #bg3d {opacity:.16;}
+  html[data-theme="light"] #bg3d {opacity:.22;}
+}
+
+/* Keep the portfolio within the mobile viewport. */
+@media(max-width:700px) {
+  html,body {width:100%;max-width:100%;overflow-x:clip;}
+  #site,.wrapx,.hero,.pj-overview,.about-layout,.tech-groups,.courses {min-width:0;max-width:100%;}
+  .hero,.pj-overview,.about-layout {grid-template-columns:minmax(0,1fr);}
+  .hero-txt,.pj-txt,.pj-head,.pj-head h3,.case-grid,.feat {min-width:0;}
+  .pj-head h3,.hero h1,.blk h2 {overflow-wrap:anywhere;}
+}

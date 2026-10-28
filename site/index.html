@@ -22,17 +22,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/rafael-game/hero-640.webp" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=12">
-<link rel="stylesheet" href="css/demos.css?v=9">
-<link rel="stylesheet" href="css/studio.css?v=8">
+<link rel="stylesheet" href="css/style.css?v=15">
+<link rel="stylesheet" href="css/demos.css?v=15">
+<link rel="stylesheet" href="css/studio.css?v=11">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Rafael Carvalho","jobTitle":"Desenvolvedor Full Stack","email":"mailto:rafaelsancar@gmail.com","worksFor":{"@type":"Organization","name":"Nous"},"knowsAbout":["Angular","React Native","Node.js","TypeScript","PostgreSQL"],"sameAs":["https://www.linkedin.com/in/rafael-sancar-991b01346"]}</script>
 <script>
 // Respect the device accessibility preference without an extra interface toggle.
 document.documentElement.classList.toggle('rm', matchMedia('(prefers-reduced-motion: reduce)').matches);
-try {
-  var savedTheme = localStorage.getItem('theme');
-  document.documentElement.dataset.theme = ['dark', 'light'].includes(savedTheme) ? savedTheme : 'dark';
-} catch (e) {}
+document.documentElement.dataset.theme = 'dark';
 // Resolve the public page and preview image when served at its final address.
 if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
   var publicPage = new URL(location.pathname, location.origin).href;
@@ -79,13 +76,13 @@ if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].
 <script defer src="js/tech-icons.js?v=2"></script>
 <script defer src="js/bg3d.js?v=4"></script>
 <script defer src="js/project-art.js?v=2"></script>
-<script defer src="js/app.js?v=24"></script>
+<script defer src="js/app.js?v=25"></script>
 <script defer src="js/site-fx.js?v=5"></script>
 <script defer src="js/studio-atlas.js?v=1"></script>
 <script defer src="js/studio-motion-atlas.js?v=4"></script>
 <script defer src="js/studio-intro.js?v=8"></script>
 <script defer src="js/studio-world.js?v=7"></script>
-<script defer src="js/studio.js?v=8"></script>
+<script defer src="js/studio.js?v=13"></script>
 <script defer src="js/boot.js"></script>
 </body>
 </html>
