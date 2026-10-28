@@ -1,5 +1,17 @@
 /* Utilitários das mini-demos: contagem animada, gráficos SVG que se desenham sozinhos, toasts. */
 window.DemoUtil = (function () {
+  const pages = new WeakMap();
+  function resetScroll(host) {
+    // The mobile layout scrolls the outer modal; desktop may scroll the host.
+    for (let el=host; el && el!==document.body; el=el.parentElement) {
+      el.scrollTo({top:0,left:0,behavior:'instant'});
+    }
+  }
+  function startPage(host,key) {
+    if (pages.get(host)===key) return;
+    pages.set(host,key);
+    resetScroll(host);
+  }
   const FMT = {
     brl: (n) => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
     int: (n) => Math.round(n).toLocaleString('pt-BR'),
@@ -49,5 +61,5 @@ window.DemoUtil = (function () {
     if (!box) return; const t = document.createElement('div'); t.className = 'dm-toast ' + (kind || 'ok'); t.textContent = msg; box.appendChild(t);
     setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 300); }, 2200);
   }
-  return { FMT, count, countAll, line, bars, donut, toast };
+  return { FMT, count, countAll, line, bars, donut, toast, resetScroll, startPage };
 })();

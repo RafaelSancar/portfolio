@@ -107,12 +107,12 @@ window.App = (function () {
     demoTheme('dark');fullscreenLabels();
     document.body.classList.add('noscroll');
     $('#site').inert=true; $('#topbar').inert=true; $('#toTop').inert=true; if($('#studio'))$('#studio').inert=true;
-    closeMenu(); $('#modalClose').focus();
+    closeMenu(); $('#modalClose').focus({preventScroll:true});
     try {
-      await loadScript('js/demos/_util.js?v=9');await loadScript(`js/demos/${id}.js?v=13`);
+      await loadScript('js/demos/_util.js?v=10');await loadScript(`js/demos/${id}.js?v=14`);
       if(ticket!==requestId || openProjectId!==id) return;
       if(!window.Demos?.[id]) throw new Error('Demo unavailable');
-      const host=$('#demoHost');host.innerHTML='';Demos[id](host,lang);host.setAttribute('aria-busy','false');
+      const host=$('#demoHost');host.innerHTML='';Demos[id](host,lang);host.setAttribute('aria-busy','false');DemoUtil.resetScroll(host);
     } catch(e) {
       if(ticket!==requestId || openProjectId!==id) return;
       $('#demoHost').setAttribute('aria-busy','false');
