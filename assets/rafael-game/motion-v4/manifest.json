@@ -1,0 +1,14 @@
+{
+  "previousTotalFrames": 64,
+  "totalFrames": 100,
+  "movements": {
+    "walk": 16,
+    "run": 16,
+    "wave": 24,
+    "present": 24,
+    "celebrate": 20
+  },
+  "tool": "Built-in image_gen",
+  "originals": "sources/",
+  "prompts": "prompts.json"
+}

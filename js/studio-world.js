@@ -1,6 +1,28 @@
 /* Cenário editável em Canvas: madeira, plantas, monitores e iluminação quente. */
 window.StudioWorld = function (canvas, character, screens, motionImages) {
   const g=canvas.getContext('2d'),{walk,run}=motionImages;
+  const isolatedFrames=new Map();
+  // Rectangles overlap at the feet. Keep only the character connected to each
+  // pose, so a neighbouring shoe can never enter the rendered frame.
+  function isolatedFrame(name,step){
+    const key=name+step;if(isolatedFrames.has(key))return isolatedFrames.get(key);
+    const f=STUDIO_MOTION[name].frames[step],surface=document.createElement('canvas');surface.width=f.w;surface.height=f.h;
+    const ctx=surface.getContext('2d',{willReadFrequently:true});ctx.drawImage(motionImages[name],f.x,f.y,f.w,f.h,0,0,f.w,f.h);
+    const pixels=ctx.getImageData(0,0,f.w,f.h),data=pixels.data,n=f.w*f.h,labels=new Int32Array(n),queue=new Int32Array(n);let label=0,best=0,bestSize=0;
+    const solid=new Uint8Array(n);
+    for(let i=0;i<n;i++){const p=i*4,r=data[p],green=data[p+1],b=data[p+2];const fringe=(b>170&&b>r*2.4&&b>green*1.7)||(green>170&&b>170&&r<green*.7);solid[i]=data[p+3]>32&&!fringe?1:0;}
+    for(let i=0;i<n;i++){
+      if(!solid[i]||labels[i])continue;label++;let head=0,tail=1;queue[0]=i;labels[i]=label;
+      while(head<tail){const p=queue[head++],x=p%f.w;for(const next of [x>0?p-1:-1,x<f.w-1?p+1:-1,p-f.w,p+f.w]){if(next>=0&&next<n&&solid[next]&&!labels[next]){labels[next]=label;queue[tail++]=next;}}}
+      if(tail>bestSize){bestSize=tail;best=label;}
+    }
+    for(let i=0;i<n;i++){
+      let keep=labels[i]===best;
+      if(!keep&&solid[i]){const x=i%f.w;for(let dy=-1;dy<=1&&!keep;dy++)for(let dx=-1;dx<=1;dx++){const next=i+dy*f.w+dx;if(x+dx>=0&&x+dx<f.w&&next>=0&&next<n&&labels[next]===best)keep=true;}}
+      if(!keep)data[i*4+3]=0;
+    }
+    ctx.putImageData(pixels,0,0);isolatedFrames.set(key,surface);return surface;
+  }
   let dark=true;
   const night={'#eee6d7':'#141e25','#f3eadb':'#1d292e','#d5b185':'#302c27','#e7ddcb':'#202b31','#eee4d2':'#253035','#d7c6ab':'#1b252a','#b99a75':'#6b5540','#d7b58b':'#57432f','#c39669':'#443426','#af815b':'#30271f','#a88c6a':'#53483a','#ad9270':'#594a38','#8d755a':'#40372e','#f5eddf':'#283530','#827257':'#c3bd9c','#bd956c':'#8c6a47','#e0b88a':'#ad8658','#a98058':'#715237','#b79670':'#67523d','#c9ab84':'#796249','#837259':'#af9471','#4a4a43':'#343c3b','#192d31':'#0c171c','#e9deca':'#4b5048','#b48b64':'#6f5842','#c5d5cb':'#101d32','#f5dbb5':'#28334b','#e7b88c':'#775344','#fff6d9':'#f6dfb4','#6d6150':'#d0c3a5','#8c7d66':'#9ca993','#67583f':'#c9c1a1','#a37f5e':'#544331','#b99a75':'#6b5540','#d7b58e':'#8c6b48','#ece3d0':'#c9b995','#6b7f6e':'#3f5b4c','#919f8e':'#3e584b','#a2af9b':'#4f6a59','#7b8e7d':'#314b40','#8a9c87':'#46624f','#b0b8a2':'#56634c','#b6b69c':'#646348','#baa98d':'#6f5d44','#c9ad82':'#b48a58','#b28d64':'#775a3e','#eee4cd':'#283833','#655641':'#d0c7a7','#89a394':'#99b59b','#635144':'#b8b7a0'};
   const tone=c=>dark&&(typeof c==='string')?(night[c]||c):c;
@@ -45,7 +67,7 @@ window.StudioWorld = function (canvas, character, screens, motionImages) {
   function details(x,index,pt){
     // Small, stationary props give each stop its own purpose.
     rr(x-425,-385,178,9,3,'#a98058');books(x-412,-386);plant(x-269,-386,.27);
-    if(index===0){rr(x+255,-450,117,93,5,'#b48b64');rr(x+262,-443,103,79,2,'#eee4cd');txt('MAKE',x+313,-412,15,'#655641',800,'center');txt('IT HAPPEN.',x+313,-388,12,'#655641',700,'center');}
+    if(index===0){rr(x+255,-450,117,93,5,'#b48b64');rr(x+262,-443,103,79,2,'#eee4cd');txt(pt?'FAÇA':'MAKE',x+313,-412,15,'#655641',800,'center');txt(pt?'ACONTECER.':'IT HAPPEN.',x+313,-388,12,'#655641',700,'center');}
     if(index===1){rr(x+137,-292,44,78,7,'#162b2c');rr(x+141,-286,36,66,4,'#d9e3d7');rr(x+147,-272,24,18,3,'#7d9d76');rr(x+147,-246,24,3,1,'#8d9a8c');rr(x+153,-213,12,16,2,'#6b6e65');}
     if(index===2){rr(x+253,-422,143,101,6,'#b48b64');rr(x+260,-415,129,87,3,'#eee4cd');for(let i=0;i<5;i++)rr(x+277+i*20,-348-i*9,12,12+i*9,2,['#7c9981','#9cb28f','#c6b27e'][i%3]);txt('DF',x+276,-393,11,'#655641',700);}
     if(index===3){rr(x+310,-180,93,181,8,'#18282b');for(let i=0;i<4;i++){rr(x+318,-170+i*40,77,32,4,'#304341');rr(x+326,-159+i*40,34,3,1,'#718275');rr(x+379,-159+i*40,4,4,2,'#bbd59d');}txt('NOUS',x+356,-192,10,'#827257',800,'center');}
@@ -74,11 +96,12 @@ window.StudioWorld = function (canvas, character, screens, motionImages) {
       g.save();g.translate(characterX,66+bob);
       if(action||walking){
         const name=action?gesture:sprint?'run':'walk',atlas=STUDIO_MOTION[name];
-        const raw=action?Math.floor(gestureProgress*12):Math.floor((walkPhase%1)*atlas.frames.length);
-        const step=action&&name!=='wave'?Math.min(atlas.frames.length-1,raw):raw%atlas.frames.length;
+        const raw=action?Math.floor(gestureProgress*(atlas.fps||12)):Math.floor((walkPhase%1)*atlas.frames.length);
+        const step=action?Math.min(atlas.frames.length-1,raw):raw%atlas.frames.length;
         const f=atlas.frames[Math.max(0,step)],scale=chH/(f.referenceHeight||atlas.referenceHeight);
         if(!action&&direction<0)g.scale(-1,1);
-        g.drawImage(motionImages[name],f.x,f.y,f.w,f.h,-f.anchorX*scale,-f.baseline*scale,f.w*scale,f.h*scale);
+        if(!atlas.isolated&&(name==='run'||name==='walk'))g.drawImage(isolatedFrame(name,Math.max(0,step)),-f.anchorX*scale,-f.baseline*scale,f.w*scale,f.h*scale);
+        else g.drawImage(motionImages[name],f.x,f.y,f.w,f.h,-f.anchorX*scale,-f.baseline*scale,f.w*scale,f.h*scale);
       }else g.drawImage(character,-chW/2,-chH,chW,chH);
       g.restore();
     }

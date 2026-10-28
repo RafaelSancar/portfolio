@@ -13,10 +13,10 @@ window.Demos.finfat = function (host, lang) {
   const NAMES_R = ['Padaria Central', 'Restaurante Sabor', 'Lanchonete do Zé', 'Mercado Bom Preço', 'Oficina Rápida', 'Maria Souza', 'Clínica Vida', 'Pet Shop Amigo', 'Escola Aprender', 'Hotel Centro', 'Academia Forma', 'Floricultura Rosa'];
   const mk = (names, seed) => names.map((n, i) => {
     const venc = '2025-11-' + String(((i * 7 + seed) % 27) + 1).padStart(2, '0'), paid = (i + seed) % 4 === 0;
-    return { id: i + 1, emissao: '2025-10-' + String(((i * 5 + seed) % 27) + 1).padStart(2, '0'), numero: String(400 + i * 13 + seed).padStart(6, '0'), prefixo: 'NF', parcela: '1/1', pessoa: n, venc, baixa: paid ? venc : '', orig: Math.round((300 + ((i * 937 + seed * 211) % 4200)) * 100) / 100, acr: 0, dec: 0, especie: ['Boleto', 'PIX', 'Cartão', 'Débito'][i % 4], tipo: 'Geral', banco: ['Itaú', 'Bradesco'][i % 2], obs: '' };
+    return { id: i + 1, emissao: '2025-10-' + String(((i * 5 + seed) % 27) + 1).padStart(2, '0'), numero: String(400 + i * 13 + seed).padStart(6, '0'), prefixo: 'NF', parcela: '1/1', pessoa: n, venc, baixa: paid ? venc : '', orig: Math.round((300 + ((i * 937 + seed * 211) % 4200)) * 100) / 100, acr: 0, dec: 0, especie: [L('Boleto','Bank slip'), 'PIX', L('Cartão','Card'), L('Débito','Debit')][i % 4], tipo: L('Geral','General'), banco: ['Itaú', 'Bradesco'][i % 2], obs: '' };
   });
-  const PROD0 = [{ c: 'P001', d: 'Cabo HDMI 2m', p: 29.9 }, { c: 'P002', d: 'Teclado mecânico', p: 289 }, { c: 'P003', d: 'Mouse sem fio', p: 79.9 }, { c: 'P004', d: 'Monitor 24"', p: 799 }, { c: 'P005', d: 'Nobreak 1200VA', p: 649.5 }, { c: 'P006', d: 'Switch 8 portas', p: 159 }];
-  const GRP = ['Informática', 'Periféricos', 'Redes', 'Energia'];
+  const PROD0 = [{ c: 'P001', d: L('Cabo HDMI 2m','2m HDMI cable'), p: 29.9 }, { c: 'P002', d: L('Teclado mecânico','Mechanical keyboard'), p: 289 }, { c: 'P003', d: L('Mouse sem fio','Wireless mouse'), p: 79.9 }, { c: 'P004', d: L('Monitor 24"','24-inch monitor'), p: 799 }, { c: 'P005', d: L('Nobreak 1200VA','1200VA UPS'), p: 649.5 }, { c: 'P006', d: L('Switch 8 portas','8-port switch'), p: 159 }];
+  const GRP = [L('Informática','Computing'), L('Periféricos','Peripherals'), L('Redes','Networking'), L('Energia','Power')];
   const CID = ['São Paulo', 'Campinas', 'Santos', 'Osasco', 'Guarulhos', 'Sorocaba'];
   const PROD = PROD0.map((x, i) => ({ id: i + 1, cod: x.c, desc: x.d, grupo: GRP[i % 4], un: 'UN', preco: x.p, est: 12 + ((i * 17) % 60) }));
   const CLI = NAMES_R.map((n, i) => ({ id: i + 1, cod: 'C' + String(i + 1).padStart(3, '0'), nome: n, doc: i % 3 === 0 ? '12.345.678/0001-' + String(10 + i) : '123.456.789-' + String(10 + i), email: n.toLowerCase().replace(/[^a-z]/g, '') + '@mail.com', tel: '(11) 9' + String(8000 + i * 137).padStart(4, '0') + '-' + String(1000 + i * 91), cidade: CID[i % 6] }));
@@ -25,29 +25,30 @@ window.Demos.finfat = function (host, lang) {
     pagar: mk(NAMES_P, 3), receber: mk(NAMES_R, 1),
     orc: [{ n: '000087', cli: 'Mercado Bom Preço', data: '2025-11-06', total: 4890, st: 'open' }, { n: '000088', cli: 'Padaria Central', data: '2025-11-08', total: 1240.9, st: 'conv' }],
     vendas: [{ n: 'NF-1021', cli: 'Restaurante Sabor', data: '2025-11-07', total: 3200.5, st: 'ok' }, { n: 'NF-1022', cli: 'Clínica Vida', data: '2025-11-09', total: 1890, st: 'ok' }],
-    caixas: [{ id: 1, caixa: 'Caixa 01', op: 'Rafael', abertura: '2025-11-10 08:02', troco: 200, st: 'aberto' }, { id: 2, caixa: 'Caixa 02', op: 'Marina', abertura: '2025-11-09 08:10', troco: 150, st: 'fechado' }],
+    caixas: [{ id: 1, caixa: L('Caixa 01','Register 01'), op: 'Rafael', abertura: '2025-11-10 08:02', troco: 200, st: 'aberto' }, { id: 2, caixa: L('Caixa 02','Register 02'), op: 'Marina', abertura: '2025-11-09 08:10', troco: 150, st: 'fechado' }],
     log: [L('Nova venda registrada · caixa01', 'New sale recorded · caixa01'), L('Backup do tenant concluído', 'Tenant backup completed')]
   };
-  const st = { page: 'login', open: 'fin', q: '', status: 'all', venc: 'all', sort: { k: 'venc', d: 1 }, pg: 1, form: null, of: null, modal: null, bell: false, dark: false, toast: null, err: '' };
+  const st = { page: 'login', open: 'fin', q: '', status: 'all', venc: 'all', sort: { k: 'venc', d: 1 }, pg: 1, form: null, of: null, modal: null, bell: false, dark: host.dataset.demoTheme === 'dark', toast: null, err: '' };
 
   const status = (r) => (r.baixa ? 'PAGO' : r.venc < TODAY ? 'VENCIDO' : 'ABERTO');
   const total = (r) => (+r.orig || 0) + (+r.acr || 0) - (+r.dec || 0);
   const sum = (arr, f) => arr.filter(f).reduce((a, r) => a + total(r), 0);
   const logo = () => '<span class="ff-logo"><i><img src="assets/finfat-logo.webp" alt=""></i><b><u>D</u>Financeiro</b></span>';
   const say = (m, k) => { st.toast = [m, k || 'ok']; };
+  const statusLabel = value => pt ? value : ({PAGO:'PAID',VENCIDO:'OVERDUE',ABERTO:'OPEN'}[value] || value);
   const overdue = () => db.pagar.filter((r) => status(r) === 'VENCIDO').length;
 
   const MENU = [
     ['cad', '📁', L('Cadastro', 'Registry'), [['clientes', L('Clientes', 'Clients')], ['produtos', L('Produtos', 'Products')]]],
     ['fin', '📁', L('Financeiro', 'Finance'), [['pagar', L('Pagar', 'Payable')], ['receber', L('Receber', 'Receivable')]]],
-    ['ven', '📁', L('Venda', 'Sales'), [['orc', L('Orçamento', 'Quotes')], ['vendas', 'Vendas NF'], ['pdv', 'PDV']]]
+    ['ven', '📁', L('Venda', 'Sales'), [['orc', L('Orçamento', 'Quotes')], ['vendas', L('Vendas NF','Invoice sales')], ['pdv', L('PDV','POS')]]]
   ];
   const PARENT = { orcform: 'orc', pdvform: 'pdv', cform: 'clientes', pform: 'produtos' };
   function sidebar() {
     const cur = st.page === 'form' ? st.form.kind : (st.page === 'cform' || st.page === 'pform') ? st.cf.kind : (PARENT[st.page] || st.page);
     return `<aside class="ff-side">${logo()}<nav><button class="ff-item ${st.page === 'dash' ? 'on' : ''}" data-go="dash">🏠 Dashboard</button>
       ${MENU.map(([k, ic, lb, items]) => `<button class="ff-item grp" data-grp="${k}">${ic} ${lb}<span class="${st.open === k ? 'up' : ''}">⌄</span></button><div class="grp-items ${st.open === k ? 'open' : ''}" data-items="${k}"><div>${items.map((it) => `<button class="ff-item sub ${cur === it[0] ? 'on' : ''}" data-go="${it[0]}">${it[1]}</button>`).join('')}</div></div>`).join('')}
-      </nav><div class="ff-user"><span>R</span><div><b>Rafael</b><small>rafael@empresa.com</small></div><button data-go="login" title="Sair">⎋</button></div></aside>`;
+      </nav><div class="ff-user"><span>R</span><div><b>Rafael</b><small>rafael@empresa.com</small></div><button data-go="login" title="${L('Sair','Sign out')}">⎋</button></div></aside>`;
   }
   function bellPanel() {
     const an = db.pagar.filter((r) => status(r) === 'VENCIDO').slice(0, 3);
@@ -82,7 +83,7 @@ window.Demos.finfat = function (host, lang) {
   const pages = {
     login() {
       return `<div class="ff-login"><div class="orb o1"></div><div class="orb o2"></div><div class="ff-card auth">${logo()}<h2>${L('Bem-vindo', 'Welcome')}</h2><p>${L('Acesse sua conta para continuar', 'Sign in to continue')}</p>
-        <label>E-mail</label><input class="ff-in" value="rafael@empresa.com" placeholder="Seu e-mail"><label>${L('Senha', 'Password')}</label><input class="ff-in" type="password" value="123456" placeholder="Sua senha">
+        <label>E-mail</label><input class="ff-in" value="rafael@empresa.com" placeholder="${L('Seu e-mail','Your email')}"><label>${L('Senha', 'Password')}</label><input class="ff-in" type="password" value="123456" placeholder="${L('Sua senha','Your password')}">
         <button class="ff-btn wide" data-go="dash">${L('Entrar', 'Sign in')}</button><small>${L('Ainda não tem conta?', "Don't have an account?")} <a>${L('Cadastre-se', 'Sign up')}</a></small></div></div>`;
     },
     dash() {
@@ -100,13 +101,13 @@ window.Demos.finfat = function (host, lang) {
       const k = st.sort.k; rows = rows.slice().sort((a, b) => (k === 'valor' ? total(a) - total(b) : String(a[k === 'pessoa' ? 'pessoa' : k]).localeCompare(String(b[k === 'pessoa' ? 'pessoa' : k]))) * st.sort.d);
       const size = 6, pages = Math.max(1, Math.ceil(rows.length / size)); if (st.pg > pages) st.pg = pages;
       const view = rows.slice((st.pg - 1) * size, st.pg * size), th = (key, label) => `<th class="sortable" data-sort="${key}">${label}${st.sort.k === key ? (st.sort.d > 0 ? ' ▲' : ' ▼') : ''}</th>`;
-      return `<div class="ff-card glass head"><div><h1>${isP ? L('Contas a Pagar', 'Accounts Payable') : L('Contas a Receber', 'Accounts Receivable')}</h1><p>${isP ? L('Gerenciamento de contas a pagar', 'Accounts payable management') : 'Sistema Financeiro - Contas a Receber'}</p></div>
+      return `<div class="ff-card glass head"><div><h1>${isP ? L('Contas a Pagar', 'Accounts Payable') : L('Contas a Receber', 'Accounts Receivable')}</h1><p>${isP ? L('Gerenciamento de contas a pagar', 'Accounts payable management') : L('Sistema Financeiro - Contas a Receber','Financial system - Accounts Receivable')}</p></div>
         <div><button class="ff-btn" data-export="${kind}">⬇ ${L('Exportar', 'Export')}</button> <button class="ff-btn alt" data-new="${kind}">＋ ${L('Nova Conta', 'New Account')}</button></div></div>
         <div class="ff-filters"><input class="ff-in" data-q placeholder="${L('Buscar contas...', 'Search accounts...')}" value="${esc(st.q)}">
           <select class="ff-in" data-st><option value="all">${L('Todos', 'All')}</option><option value="open" ${st.status === 'open' ? 'selected' : ''}>${L('Em Aberto', 'Open')}</option><option value="paid" ${st.status === 'paid' ? 'selected' : ''}>${L('Pago', 'Paid')}</option></select>
           <select class="ff-in" data-vc><option value="all">${L('Todos os vencimentos', 'All due dates')}</option><option value="late" ${st.venc === 'late' ? 'selected' : ''}>${L('Vencidos', 'Overdue')}</option><option value="today" ${st.venc === 'today' ? 'selected' : ''}>${L('Vence hoje', 'Due today')}</option><option value="next" ${st.venc === 'next' ? 'selected' : ''}>${L('A vencer', 'Upcoming')}</option></select><button class="ff-btn">${L('Pesquisar', 'Search')}</button></div>
         <div class="ff-card tbl"><table><tr><th>Status</th>${th('emissao', L('Emissão', 'Issue'))}${th('numero', L('Número', 'Number'))}${th('pessoa', isP ? L('Fornecedor', 'Supplier') : L('Cliente', 'Client'))}${th('venc', L('Vencimento', 'Due'))}<th>${L('Data Baixa', 'Paid on')}</th>${th('valor', L('Valor', 'Amount'))}<th>${L('Ações', 'Actions')}</th></tr>
-        ${view.map((r) => `<tr class="${status(r)} rowin"><td><span class="ff-pill ${status(r)}">${status(r)}</span></td><td>${fmt(r.emissao)}</td><td>${r.numero}</td><td>${esc(r.pessoa)}</td><td>${fmt(r.venc)}</td><td>${fmt(r.baixa) || '—'}</td><td>${brl(total(r))}</td>
+        ${view.map((r) => `<tr class="${status(r)} rowin"><td><span class="ff-pill ${status(r)}">${statusLabel(status(r))}</span></td><td>${fmt(r.emissao)}</td><td>${r.numero}</td><td>${esc(r.pessoa)}</td><td>${fmt(r.venc)}</td><td>${fmt(r.baixa) || '—'}</td><td>${brl(total(r))}</td>
           <td class="act"><button data-edit="${kind}:${r.id}:v" title="${L('Visualizar', 'View')}">👁</button><button data-edit="${kind}:${r.id}:e" class="e" title="${L('Editar', 'Edit')}">✎</button><button data-del="${kind}:${r.id}" class="d" title="${L('Excluir', 'Delete')}">🗑</button></td></tr>`).join('') || `<tr><td colspan="8" class="empty">${L('Nenhuma conta encontrada', 'No accounts found')}<small>${L('Tente ajustar os filtros ou cadastre uma nova conta', 'Adjust filters or add a new account')}</small></td></tr>`}</table>
         <div class="ff-pager"><span>${L('Mostrando', 'Showing')} <b>${rows.length ? (st.pg - 1) * size + 1 : 0}</b> ${L('a', 'to')} <b>${(st.pg - 1) * size + view.length}</b> ${L('de', 'of')} <b>${rows.length}</b> ${L('registros', 'records')}</span><span><button data-pg="${st.pg - 1}" ${st.pg <= 1 ? 'disabled' : ''}>${L('Anterior', 'Previous')}</button>${Array.from({ length: pages }, (_, i) => `<button class="${i + 1 === st.pg ? 'on' : ''}" data-pg="${i + 1}">${i + 1}</button>`).join('')}<button data-pg="${st.pg + 1}" ${st.pg >= pages ? 'disabled' : ''}>${L('Próxima', 'Next')}</button></span></div></div>`;
     },
@@ -117,7 +118,7 @@ window.Demos.finfat = function (host, lang) {
       return `<div class="ff-card glass head"><h1>${ttl}</h1><button class="ff-btn alt" data-go="${f.kind}">← ${L('Voltar', 'Back')}</button></div>
         <div class="ff-card blk"><div class="hb">📄 ${L('Dados do Documento', 'Document Data')}</div><div class="ff-grid4 pad">${inp('emissao', L('Data de Emissão', 'Issue Date'), 'date', 1)}${inp('numero', L('Número', 'Number'))}${inp('prefixo', L('Prefixo', 'Prefix'))}${inp('parcela', L('Parcela', 'Installment'))}${inp('pessoa', isP ? L('Fornecedor', 'Supplier') : L('Cliente', 'Client'), 'text', 1)}${inp('venc', L('Vencimento', 'Due Date'), 'date', 1)}${inp('baixa', L('Data de Baixa', 'Settlement Date'), 'date')}</div></div>
         <div class="ff-card blk"><div class="hb">💲 ${L('Valores', 'Amounts')}</div><div class="ff-grid4 pad">${inp('orig', L('Valor Original', 'Original Amount'), 'number', 1)}${inp('acr', L('Acréscimo', 'Increase'), 'number')}${inp('dec', L('Decréscimo', 'Discount'), 'number')}<div><label>${L('Valor', 'Total')}</label><input class="ff-in" id="ffTot" disabled value="${brl(total(f.r))}"></div></div></div>
-        <div class="ff-card blk"><div class="hb">💳 ${L('Pagamento', 'Payment')}</div><div class="ff-grid3 pad">${inp('especie', L('Espécie', 'Payment type'), 'text', 1)}${inp('tipo', L('Tipo', 'Type'), 'text', 1)}${inp('banco', 'Banco')}</div></div>
+        <div class="ff-card blk"><div class="hb">💳 ${L('Pagamento', 'Payment')}</div><div class="ff-grid3 pad">${inp('especie', L('Espécie', 'Payment type'), 'text', 1)}${inp('tipo', L('Tipo', 'Type'), 'text', 1)}${inp('banco', L('Banco','Bank'))}</div></div>
         <div class="ff-card blk"><div class="hb">📝 ${L('Histórico', 'History')}</div><div class="pad"><label>${L('Observações', 'Notes')}</label><textarea class="ff-in" rows="3" data-fld="obs" ${ro}>${esc(f.r.obs)}</textarea></div></div>
         ${f.mode === 'v' ? '' : `<div class="ff-foot"><button class="ff-btn gray" data-go="${f.kind}">${L('Cancelar', 'Cancel')}</button><button class="ff-btn" data-save>${f.mode === 'n' ? L('Salvar', 'Save') : L('Atualizar', 'Update')}</button></div>`}
         ${f.mode === 'e' ? `<p class="ff-hint">${L('Dica: preencha a "Data de Baixa" e salve para baixar a conta, como no sistema real.', 'Tip: fill "Settlement Date" and save to settle the account, as in the real system.')}</p>` : ''}`;
@@ -133,7 +134,7 @@ window.Demos.finfat = function (host, lang) {
         <div class="ff-card blk"><div class="hb">📄 ${L('Dados do Orçamento', 'Quote Data')}</div><div class="ff-grid3 pad"><div><label>${L('Cliente', 'Client')}<i>*</i></label><select class="ff-in" data-ofld="cli"><option value="">${L('Selecione...', 'Select...')}</option>${db.clientes.map((c) => `<option ${o.cli === c.nome ? 'selected' : ''}>${esc(c.nome)}</option>`).join('')}</select></div><div><label>${L('Data', 'Date')}</label><input class="ff-in" type="date" value="${TODAY}" disabled></div><div><label>${L('Validade', 'Valid until')}</label><input class="ff-in" type="date" value="2025-11-30" disabled></div></div></div>
         <div class="ff-card blk"><div class="hb">🛒 ${L('Itens do Orçamento', 'Quote Items')} <button class="ff-btn sm" data-additem>＋ ${L('Adicionar Item', 'Add Item')}</button></div><div class="pad">${o.itens.map((i, n) => `<div class="ff-item-row"><input class="ff-in" value="${i.c}" readonly title="${L('Código', 'Code')}"><input class="ff-in" value="${esc(i.dsc)}" readonly><input class="ff-in" type="number" min="1" value="${i.q}" data-iq="${n}" aria-label="${L('Quantidade', 'Quantity')}"><input class="ff-in" value="${brl(i.p)}" readonly><span class="dsc"><input class="ff-in" type="number" min="0" max="100" value="${i.d}" data-id="${n}" aria-label="${L('Desconto %', 'Discount %')}">%</span><b>${brl(i.q * i.p * (1 - i.d / 100))}</b><button class="act-d" data-rmitem="${n}" title="${L('Remover', 'Remove')}">🗑</button></div>`).join('') || `<p class="ff-hint">${L('Nenhum item. Clique em "Adicionar Item".', 'No items. Click "Add Item".')}</p>`}</div></div>
         <div class="ff-grid2"><div class="ff-card blk"><div class="hb">💲 ${L('Resumo Financeiro', 'Financial Summary')}</div><div class="pad ff-sum"><div class="ff-grid2"><div><label>${L('Desconto Geral (%)', 'Overall Discount (%)')}</label><input class="ff-in" type="number" min="0" max="100" value="${o.dg}" data-ofld="dg"></div><div><label>${L('Acréscimo (%)', 'Increase (%)')}</label><input class="ff-in" type="number" min="0" max="100" value="${o.ac}" data-ofld="ac"></div></div>
-          <p><span>Subtotal:</span><b>${brl(sub)}</b></p><p><span>${L('Desconto', 'Discount')} (${o.dg}%):</span><b class="neg">- ${brl(dg)}</b></p><p><span>${L('Acréscimo', 'Increase')} (${o.ac}%):</span><b>+ ${brl(ac)}</b></p><p class="tot"><span>Total Geral:</span><b>${brl(tot)}</b></p></div></div>
+          <p><span>Subtotal:</span><b>${brl(sub)}</b></p><p><span>${L('Desconto', 'Discount')} (${o.dg}%):</span><b class="neg">- ${brl(dg)}</b></p><p><span>${L('Acréscimo', 'Increase')} (${o.ac}%):</span><b>+ ${brl(ac)}</b></p><p class="tot"><span>${L('Total Geral:','Grand total:')}</span><b>${brl(tot)}</b></p></div></div>
         <div class="ff-card blk"><div class="hb">💳 ${L('Formas de Pagamento', 'Payment Methods')} <button class="ff-btn sm" data-addpag>＋ ${L('Adicionar Formas', 'Add Methods')}</button></div><div class="pad">${o.pag.map((p, n) => `<p class="ff-pag"><span>${p.f}</span><b>${brl(p.v)}</b><button class="act-d" data-rmpag="${n}">✕</button></p>`).join('') || `<p class="ff-hint">${L('Nenhuma forma adicionada.', 'No methods added.')}</p>`}<p class="ff-hint ${Math.abs(pg - tot) < 0.01 || !o.pag.length ? '' : 'warn'}">${L('Total pago', 'Paid total')}: ${brl(pg)} / ${brl(tot)}</p></div></div></div>
         ${st.err ? `<div class="ff-alert err">${st.err}</div>` : ''}<div class="ff-foot"><button class="ff-btn gray" data-go="orc">${L('Cancelar', 'Cancel')}</button><button class="ff-btn" data-saveorc>${L('Salvar', 'Save')}</button></div>`;
     },
@@ -142,16 +143,16 @@ window.Demos.finfat = function (host, lang) {
     cform() { return crudForm(); },
     pform() { return crudForm(); },
     vendas() {
-      return `<div class="ff-card glass head"><div><h1>Vendas NF</h1><p>${L('Notas fiscais e vendas efetivadas', 'Invoices and converted sales')}</p></div><button class="ff-btn alt">＋ ${L('Nova Venda', 'New Sale')}</button></div>
-        <div class="ff-card tbl"><table><tr><th>${L('Número', 'Number')}</th><th>${L('Cliente', 'Client')}</th><th>${L('Data', 'Date')}</th><th>Total</th><th>NF</th></tr>${db.vendas.slice().reverse().map((v) => `<tr class="rowin ${v.fresh ? 'fresh' : ''}"><td>${v.n}</td><td>${esc(v.cli)}</td><td>${fmt(v.data)}</td><td>${brl(v.total)}</td><td><span class="ff-pill PAGO">${L('Emitida', 'Issued')}</span></td></tr>`).join('')}</table></div>`;
+      return `<div class="ff-card glass head"><div><h1>${L('Vendas NF','Invoice sales')}</h1><p>${L('Notas fiscais e vendas efetivadas', 'Invoices and converted sales')}</p></div><button class="ff-btn alt">＋ ${L('Nova Venda', 'New Sale')}</button></div>
+        <div class="ff-card tbl"><table><tr><th>${L('Número', 'Number')}</th><th>${L('Cliente', 'Client')}</th><th>${L('Data', 'Date')}</th><th>Total</th><th>${L('NF','Invoice')}</th></tr>${db.vendas.slice().reverse().map((v) => `<tr class="rowin ${v.fresh ? 'fresh' : ''}"><td>${v.n}</td><td>${esc(v.cli)}</td><td>${fmt(v.data)}</td><td>${brl(v.total)}</td><td><span class="ff-pill PAGO">${L('Emitida', 'Issued')}</span></td></tr>`).join('')}</table></div>`;
     },
     pdv() {
       return `<div class="ff-card glass head"><div><h1>${L('PDV - Ponto de Venda', 'POS - Point of Sale')}</h1><p>${L('Abertura e fechamento de caixa', 'Cash register opening and closing')}</p></div><button class="ff-btn alt" data-go="pdvform">＋ ${L('Abrir Caixa', 'Open Register')}</button></div>
-        <div class="ff-card tbl"><table><tr><th>Caixa</th><th>${L('Operador', 'Operator')}</th><th>${L('Data Abertura', 'Opened at')}</th><th>${L('Troco Inicial', 'Opening cash')}</th><th>Status</th><th>${L('Ações', 'Actions')}</th></tr>${db.caixas.map((c) => `<tr class="rowin"><td>${esc(c.caixa)}</td><td>${esc(c.op)}</td><td>${c.abertura}</td><td>${brl(c.troco)}</td><td><span class="ff-pill ${c.st === 'aberto' ? 'ABERTO' : 'PAGO'}">${c.st === 'aberto' ? L('Aberto', 'Open') : L('Fechado', 'Closed')}</span></td><td class="act">${c.st === 'aberto' ? `<button data-closecx="${c.id}" title="${L('Fechar caixa', 'Close register')}">🔒</button>` : ''}</td></tr>`).join('')}</table></div>`;
+        <div class="ff-card tbl"><table><tr><th>${L('Caixa','Register')}</th><th>${L('Operador', 'Operator')}</th><th>${L('Data Abertura', 'Opened at')}</th><th>${L('Troco Inicial', 'Opening cash')}</th><th>Status</th><th>${L('Ações', 'Actions')}</th></tr>${db.caixas.map((c) => `<tr class="rowin"><td>${esc(c.caixa)}</td><td>${esc(c.op)}</td><td>${c.abertura}</td><td>${brl(c.troco)}</td><td><span class="ff-pill ${c.st === 'aberto' ? 'ABERTO' : 'PAGO'}">${c.st === 'aberto' ? L('Aberto', 'Open') : L('Fechado', 'Closed')}</span></td><td class="act">${c.st === 'aberto' ? `<button data-closecx="${c.id}" title="${L('Fechar caixa', 'Close register')}">🔒</button>` : ''}</td></tr>`).join('')}</table></div>`;
     },
     pdvform() {
       return `<div class="ff-card glass head"><h1>${L('Abrir Caixa', 'Open Register')}</h1><button class="ff-btn alt" data-go="pdv">← ${L('Voltar', 'Back')}</button></div>
-        <div class="ff-card blk"><div class="hb">🧾 ${L('Dados do Caixa', 'Register Data')}</div><div class="ff-grid3 pad"><div><label>Caixa<i>*</i></label><input class="ff-in" id="cxN" placeholder="Caixa 03"></div><div><label>${L('Operador', 'Operator')}<i>*</i></label><input class="ff-in" id="cxO" value="Rafael"></div><div><label>${L('Troco Inicial', 'Opening cash')}</label><input class="ff-in" id="cxT" type="number" value="200"></div></div></div>
+        <div class="ff-card blk"><div class="hb">🧾 ${L('Dados do Caixa', 'Register Data')}</div><div class="ff-grid3 pad"><div><label>${L('Caixa','Register')}<i>*</i></label><input class="ff-in" id="cxN" placeholder="${L('Caixa 03','Register 03')}"></div><div><label>${L('Operador', 'Operator')}<i>*</i></label><input class="ff-in" id="cxO" value="Rafael"></div><div><label>${L('Troco Inicial', 'Opening cash')}</label><input class="ff-in" id="cxT" type="number" value="200"></div></div></div>
         ${st.err ? `<div class="ff-alert err">${st.err}</div>` : ''}<div class="ff-foot"><button class="ff-btn gray" data-go="pdv">${L('Cancelar', 'Cancel')}</button><button class="ff-btn" data-savecx>${L('Abrir Caixa', 'Open Register')}</button></div>`;
     }
   };
@@ -159,7 +160,7 @@ window.Demos.finfat = function (host, lang) {
   function modal() {
     const m = st.modal; if (!m) return '';
     if (m === 'prod') return `<div class="ff-modal"><div class="bx"><h3>${L('Buscar produto', 'Search product')}</h3>${db.produtos.map((p, i) => `<button class="ff-prod" data-pick="${i}"><b>${esc(p.cod)}</b> ${esc(p.desc)}<span>${brl(+p.preco)}</span></button>`).join('')}<div class="ff-foot"><button class="ff-btn gray" data-mc>${L('Cancelar', 'Cancel')}</button></div></div></div>`;
-    return `<div class="ff-modal"><div class="bx"><h3>${L('Adicionar forma de pagamento', 'Add payment method')}</h3><label>${L('Forma', 'Method')}</label><select class="ff-in" id="pgF"><option>PIX</option><option>Boleto</option><option>${L('Cartão', 'Card')}</option><option>${L('Dinheiro', 'Cash')}</option></select><label>${L('Valor', 'Amount')}</label><input class="ff-in" id="pgV" type="number" value="${(() => { const o = st.of, s = o.itens.reduce((a, i) => a + i.q * i.p * (1 - i.d / 100), 0); return (s * (1 - o.dg / 100) * (1 + o.ac / 100) - o.pag.reduce((a, p) => a + p.v, 0)).toFixed(2); })()}"><div class="ff-foot"><button class="ff-btn gray" data-mc>${L('Cancelar', 'Cancel')}</button><button class="ff-btn" data-okpag>${L('Confirmar', 'Confirm')}</button></div></div></div>`;
+    return `<div class="ff-modal"><div class="bx"><h3>${L('Adicionar forma de pagamento', 'Add payment method')}</h3><label>${L('Forma', 'Method')}</label><select class="ff-in" id="pgF"><option>PIX</option><option>${L('Boleto','Bank slip')}</option><option>${L('Cartão', 'Card')}</option><option>${L('Dinheiro', 'Cash')}</option></select><label>${L('Valor', 'Amount')}</label><input class="ff-in" id="pgV" type="number" value="${(() => { const o = st.of, s = o.itens.reduce((a, i) => a + i.q * i.p * (1 - i.d / 100), 0); return (s * (1 - o.dg / 100) * (1 + o.ac / 100) - o.pag.reduce((a, p) => a + p.v, 0)).toFixed(2); })()}"><div class="ff-foot"><button class="ff-btn gray" data-mc>${L('Cancelar', 'Cancel')}</button><button class="ff-btn" data-okpag>${L('Confirmar', 'Confirm')}</button></div></div></div>`;
   }
 
   function draw(anim) {
@@ -178,7 +179,7 @@ window.Demos.finfat = function (host, lang) {
     if ((b = q('[data-grp]'))) { const k = b.dataset.grp, items = host.querySelector('[data-items="' + k + '"]'); st.open = st.open === k ? '' : k; host.querySelectorAll('.grp-items').forEach((el) => el.classList.toggle('open', el.dataset.items === st.open)); host.querySelectorAll('.ff-item.grp span').forEach((sp) => sp.classList.toggle('up', sp.parentNode.dataset.grp === st.open)); return; }
     if (q('[data-na]')) return;
     if (q('[data-bell]')) { st.bell = !st.bell; return draw(false); }
-    if (q('[data-dark]')) { st.dark = !st.dark; return draw(false); }
+    if (q('[data-dark]')) { document.getElementById('demoTheme').click(); return; }
     if ((b = q('[data-cnew]'))) { const k = b.dataset.cnew; st.cf = { kind: k, mode: 'n', r: {} }; st.page = k === 'clientes' ? 'cform' : 'pform'; return draw(); }
     if ((b = q('[data-cedit]'))) { const [k, id, m] = b.dataset.cedit.split(':'); st.cf = { kind: k, mode: m, r: Object.assign({}, db[k].find((r) => r.id === +id)) }; st.page = k === 'clientes' ? 'cform' : 'pform'; return draw(); }
     if ((b = q('[data-cdel]'))) { const [k, id] = b.dataset.cdel.split(':'); db[k] = db[k].filter((r) => r.id !== +id); db.log.push(L('Registro excluído · ', 'Record deleted · ') + CRUD[k].title); say(L('Registro excluído.', 'Record deleted.'), 'warn'); return draw(false); }
@@ -192,7 +193,7 @@ window.Demos.finfat = function (host, lang) {
     }
     if ((b = q('[data-sort]'))) { const k = b.dataset.sort; st.sort = { k, d: st.sort.k === k ? -st.sort.d : 1 }; return draw(false); }
     if ((b = q('[data-pg]'))) { if (!b.disabled) { st.pg = +b.dataset.pg; draw(false); } return; }
-    if ((b = q('[data-export]'))) { say(L('Exportação gerada (XLSX) — ', 'Export generated (XLSX) — ') + b.dataset.export, 'ok'); db.log.push(L('Exportação gerada', 'Export generated')); return draw(false); }
+    if ((b = q('[data-export]'))) { say(L('Exportação gerada (XLSX) — ', 'Export generated (XLSX) — ') + ({pagar:L('Contas a pagar','Accounts payable'),receber:L('Contas a receber','Accounts receivable'),orc:L('Orçamentos','Quotes')}[b.dataset.export]||b.dataset.export), 'ok'); db.log.push(L('Exportação gerada', 'Export generated')); return draw(false); }
     if ((b = q('[data-new]'))) { st.form = { kind: b.dataset.new, mode: 'n', r: { id: 0, emissao: TODAY, numero: '', prefixo: '', parcela: '1/1', pessoa: '', venc: '2025-12-10', baixa: '', orig: 0, acr: 0, dec: 0, especie: '', tipo: '', banco: '', obs: '' } }; st.page = 'form'; return draw(); }
     if ((b = q('[data-edit]'))) { const [k, id, m] = b.dataset.edit.split(':'); st.form = { kind: k, mode: m, r: Object.assign({}, db[k].find((r) => r.id === +id)) }; st.page = 'form'; return draw(); }
     if ((b = q('[data-del]'))) { const [k, id] = b.dataset.del.split(':'); db[k] = db[k].filter((r) => r.id !== +id); db.log.push(L('Conta excluída', 'Account deleted')); say(L('Conta excluída com sucesso.', 'Account deleted successfully.'), 'warn'); return draw(false); }
@@ -242,5 +243,6 @@ window.Demos.finfat = function (host, lang) {
     if (t.dataset.id !== undefined) { st.of.itens[+t.dataset.id].d = clamp(+t.value || 0); return draw(false); }
     if (t.dataset.ofld) { st.of[t.dataset.ofld] = t.dataset.ofld === 'cli' ? t.value : clamp(+t.value || 0); draw(false); }
   };
+  host.addEventListener('demo-theme-change', () => { st.dark = host.dataset.demoTheme === 'dark'; draw(false); });
   draw();
 };

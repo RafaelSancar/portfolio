@@ -23,26 +23,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/rafael-game/hero-640.webp" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="css/style.css?v=12">
-<link rel="stylesheet" href="css/demos.css?v=7">
-<link rel="stylesheet" href="css/studio.css?v=6">
+<link rel="stylesheet" href="css/demos.css?v=9">
+<link rel="stylesheet" href="css/studio.css?v=8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Rafael Carvalho","jobTitle":"Desenvolvedor Full Stack","email":"mailto:rafaelsancar@gmail.com","worksFor":{"@type":"Organization","name":"Nous"},"knowsAbout":["Angular","React Native","Node.js","TypeScript","PostgreSQL"],"sameAs":["https://www.linkedin.com/in/rafael-sancar-991b01346"]}</script>
 <script>
-document.documentElement.classList.add('rm');
+// Respect the device accessibility preference without an extra interface toggle.
+document.documentElement.classList.toggle('rm', matchMedia('(prefers-reduced-motion: reduce)').matches);
 try {
-  // Apply the new requested defaults once, then preserve visitor choices.
-  if (localStorage.getItem('studio-preferences-v2') !== '1') {
-    localStorage.setItem('theme', 'dark');
-    localStorage.setItem('rm', '1');
-    localStorage.setItem('studio-preferences-v2', '1');
-  }
-  // Show the newly requested choreography once; later choices stay saved.
-  if (localStorage.getItem('studio-animation-v1') !== '1') {
-    localStorage.setItem('rm', matchMedia('(prefers-reduced-motion: reduce)').matches ? '1' : '0');
-    localStorage.setItem('studio-animation-v1', '1');
-  }
   var savedTheme = localStorage.getItem('theme');
   document.documentElement.dataset.theme = ['dark', 'light'].includes(savedTheme) ? savedTheme : 'dark';
-  document.documentElement.classList.toggle('rm', localStorage.getItem('rm') !== '0');
 } catch (e) {}
 // Resolve the public page and preview image when served at its final address.
 if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
@@ -69,7 +58,7 @@ if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].
   <nav class="tools">
     <button id="btnLang" class="pbtn" title="PT / EN">PT</button>
     <button id="btnTheme" class="pbtn" title="Tema / Theme" aria-label="Tema">☀</button>
-    <button id="btnMotion" class="pbtn" title="Reduzir movimento / Reduce motion" aria-label="Reduzir movimento" aria-pressed="false">◎</button>
+    <button id="btnFullscreen" class="pbtn" data-fullscreen aria-pressed="false">⛶ Tela cheia</button>
     <button id="btnMenu" class="pbtn burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
   </nav>
 </header>
@@ -86,17 +75,17 @@ if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1', '[::1]'].
 
 <noscript><div class="nojs"><h1>Rafael Carvalho</h1><p>Desenvolvedor Full Stack · Angular, React Native e Node.js</p><p>Projetos: Uply (<a href="https://uplyapp.com.br">uplyapp.com.br</a>), DFinanceiro (<a href="https://finfat.com.br">finfat.com.br</a>) e <a href="https://itsm.nous.dev.br">Nous</a>.</p><p>Contato: <a href="mailto:rafaelsancar@gmail.com">rafaelsancar@gmail.com</a> · <a href="https://www.linkedin.com/in/rafael-sancar-991b01346">LinkedIn</a> · <a href="assets/Rafael-Carvalho-Curriculo.pdf">Currículo (PDF)</a></p><p>Ative o JavaScript para ver o portfólio interativo.</p></div></noscript>
 
-<script defer src="js/data.js?v=7"></script>
+<script defer src="js/data.js?v=9"></script>
 <script defer src="js/tech-icons.js?v=2"></script>
 <script defer src="js/bg3d.js?v=4"></script>
-<script defer src="js/project-art.js?v=1"></script>
-<script defer src="js/app.js?v=22"></script>
+<script defer src="js/project-art.js?v=2"></script>
+<script defer src="js/app.js?v=24"></script>
 <script defer src="js/site-fx.js?v=5"></script>
 <script defer src="js/studio-atlas.js?v=1"></script>
-<script defer src="js/studio-motion-atlas.js?v=3"></script>
-<script defer src="js/studio-intro.js?v=5"></script>
-<script defer src="js/studio-world.js?v=5"></script>
-<script defer src="js/studio.js?v=5"></script>
+<script defer src="js/studio-motion-atlas.js?v=4"></script>
+<script defer src="js/studio-intro.js?v=8"></script>
+<script defer src="js/studio-world.js?v=7"></script>
+<script defer src="js/studio.js?v=8"></script>
 <script defer src="js/boot.js"></script>
 </body>
 </html>

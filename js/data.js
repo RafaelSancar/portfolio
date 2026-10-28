@@ -209,14 +209,14 @@ window.DATA = {
       "name": "Uply",
       "color": "#ff7a1a",
       "logo": "assets/uply-logo.svg",
-      "url": "https://uplyapp.com.br",
+      "url": null,
       "tagline": {
         "pt": "Marketplace de serviços locais, com contrato e pagamento no app",
         "en": "Local services marketplace with in-app contract and payment"
       },
       "desc": {
-        "pt": "App mobile e site desenvolvidos de ponta a ponta por mim, publicados na App Store e no Google Play. O cliente publica uma solicitação, parceiros enviam propostas e negociam por chat, o pagamento fica retido na plataforma e é liberado após a entrega.",
-        "en": "Mobile app and website built end to end by me, published on the App Store and Google Play. Clients post a request, partners send proposals and negotiate by chat, payment is held by the platform and released after delivery."
+        "pt": "Desenvolvi e lancei o Uply de ponta a ponta: aplicativo mobile, site e API, incluindo a publicação na App Store e no Google Play. O cliente publica uma solicitação, parceiros enviam propostas e negociam por chat, o pagamento fica retido na plataforma e é liberado após a entrega.",
+        "en": "I built and launched Uply end to end: mobile app, website and API, including publication on the App Store and Google Play. Clients post a request, partners send proposals and negotiate by chat, payment is held by the platform and released after delivery."
       },
       "stack": [
         "React Native",
@@ -259,8 +259,8 @@ window.DATA = {
         }
       ],
       "status": {
-        "pt": "Publicado para iOS e Android",
-        "en": "Published for iOS and Android"
+        "pt": "Desenvolvido e lançado de ponta a ponta por mim · iOS e Android",
+        "en": "Developed and launched end to end by me · iOS and Android"
       },
       "caseStudy": [
         [
@@ -279,8 +279,8 @@ window.DATA = {
             "en": "My contribution"
           },
           {
-            "pt": "Desenvolvimento do app em React Native, do site e da API em Node.js com PostgreSQL, incluindo chat, contratos e integração de pagamentos.",
-            "en": "Development of the React Native app, website and Node.js/PostgreSQL API, including chat, contracts and payment integration."
+            "pt": "Responsável pelo desenvolvimento e lançamento completo do Uply, de ponta a ponta: app em React Native, site, API em Node.js com PostgreSQL, chat, contratos, pagamentos e publicação na App Store e no Google Play.",
+            "en": "Sole developer responsible for building and launching Uply end to end: React Native app, website, Node.js/PostgreSQL API, chat, contracts, payments and releases on the App Store and Google Play."
           }
         ],
         [
@@ -643,3 +643,6 @@ window.DATA = {
     }
   }
 };
+
+// Uma única ordem para as vitrines do portfólio.
+DATA.projects.sort((a,b)=>["dara","uply","finfat"].indexOf(a.id)-["dara","uply","finfat"].indexOf(b.id));
