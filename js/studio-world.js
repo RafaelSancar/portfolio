@@ -89,14 +89,14 @@ window.StudioWorld = function (canvas, character, screens, motionImages) {
     rr(min,-20,max-min,20,0,'#b99a75');g.fillStyle=grad(0,0,0,450,['#d7b58b','#c39669','#af815b']);g.fillRect(min,0,max-min,1500);
     for(let row=0;row<12;row++){const y=row*40;g.strokeStyle=dark?'#b98e5826':'#956b4350';g.lineWidth=1;g.beginPath();g.moveTo(min,y);g.lineTo(max,y);g.stroke();for(let x=Math.floor(min/190)*190;x<max;x+=190){const sx=x+(row%2)*95;g.beginPath();g.moveTo(sx,y);g.lineTo(sx+10,y+40);g.stroke();}}
     rr(min,-570,max-min,30,0,'#a88c6a');stations.forEach((s,i)=>{if(s.x+650<min||s.x-650>max)return;windowView(s.x-90);pendant(s.x+70);plant(s.x+430,0,.95);plant(s.x-490,0,.65);if(i<4){rug(s.x,i%2?'#baa98d':'#b6b69c');desk(s.x,i===0?null:DATA.projects.find(p=>p.id===s.id));}else if(i===4)shelf(s.x,pt);else sofa(s.x,pt);details(s.x,i,pt);if(i<5){rr(s.x+580,-540,24,542,4,'#ad9270');rr(s.x+573,-22,38,24,3,'#8d755a');}rr(s.x-160,-525,320,38,5,'#f5eddf');txt(i===0?(pt?'BEM-VINDO AO MEU ESTÚDIO':'WELCOME TO MY STUDIO'):s.name[pt?0:1].toUpperCase(),s.x,-500,12,'#827257',800,'center');});
-    const bob=reduced?0:Math.sin(time*(moving?9:1.5))*(moving?1:.6),chH=360,chW=chH*(character.naturalWidth/character.naturalHeight||.56);g.fillStyle='#513c2838';g.beginPath();g.ellipse(characterX,65,chW*.42,12,0,0,Math.PI*2);g.fill();if(character.naturalWidth){
-      const action=gesture&&motionImages[gesture]?.naturalWidth&&!reduced;
-      const sprint=gait==='run'&&run.naturalWidth&&!reduced;
-      const walking=walk.naturalWidth&&!reduced&&walkBlend>.12;
+    const bob=reduced?0:Math.sin(time*(moving?9:1.5))*(moving?1:.6),chH=360,chW=chH*(character.naturalWidth/character.naturalHeight||.56);g.fillStyle='#513c2838';g.beginPath();g.ellipse(characterX,65,chW*.42,12,0,0,Math.PI*2);g.fill();const fallback=Object.keys(motionImages).find(name=>CharacterAssets.ready(motionImages[name]));if(CharacterAssets.ready(character)||fallback){
+      const action=gesture&&CharacterAssets.ready(motionImages[gesture])&&!reduced;
+      const sprint=gait==='run'&&CharacterAssets.ready(run)&&!reduced;
+      const walking=CharacterAssets.ready(walk)&&!reduced&&walkBlend>.12;
       g.save();g.translate(characterX,66+bob);
-      if(action||walking){
-        const name=action?gesture:sprint?'run':'walk',atlas=STUDIO_MOTION[name];
-        const raw=action?Math.floor(gestureProgress*(atlas.fps||12)):Math.floor((walkPhase%1)*atlas.frames.length);
+      if(action||walking||!CharacterAssets.ready(character)){
+        const name=action?gesture:walking?(sprint?'run':'walk'):fallback,atlas=STUDIO_MOTION[name];
+        const raw=action?Math.floor(gestureProgress*(atlas.fps||12)):walking?Math.floor((walkPhase%1)*atlas.frames.length):0;
         const step=action?Math.min(atlas.frames.length-1,raw):raw%atlas.frames.length;
         const f=atlas.frames[Math.max(0,step)],scale=chH/(f.referenceHeight||atlas.referenceHeight);
         if(!action&&direction<0)g.scale(-1,1);

@@ -52,16 +52,17 @@ window.StudioIntro = (function () {
     const canvas=$('#intro-character'),g=canvas.getContext('2d'),motion=reduced()?'idle':gesture?.name||'idle';
     if($('.intro-character-actions').dataset.motion!==motion)$('.intro-character-actions').dataset.motion=motion;
     g.clearRect(0,0,420,700);
-    if(poses.wave.naturalWidth&&!reduced()){
-      const name=gesture?.name||'wave',atlas=STUDIO_MOTION[name],clip=clips[name],step=gesture?Math.min(clip.frames.length-1,Math.floor((elapsed-gesture.start)*clip.fps)):0;
-      const image=poses[name].naturalWidth?poses[name]:poses.wave,frames=poses[name].naturalWidth?atlas.frames:STUDIO_MOTION.wave.frames;
-      const f=frames[poses[name].naturalWidth?clip.frames[step]:0],scale=625/(f.referenceHeight||atlas.referenceHeight);
+    const available=Object.keys(poses).find(name=>CharacterAssets.ready(poses[name]));
+    if(available&&(!reduced()||!CharacterAssets.ready(hero))){
+      const name=CharacterAssets.ready(poses[gesture?.name])?gesture.name:available,atlas=STUDIO_MOTION[name],clip=clips[name],step=gesture&&!reduced()?Math.min(clip.frames.length-1,Math.floor((elapsed-gesture.start)*clip.fps)):0;
+      const image=poses[name],frames=atlas.frames;
+      const f=frames[clip.frames[step]],scale=625/(f.referenceHeight||atlas.referenceHeight);
       lean+=(leanTarget-lean)*.1;
       // Tiny weight shifts and breathing pivot at the feet, never move the baseline.
       const breath=Math.sin(elapsed*2.2)*.0025,sway=Math.sin(elapsed*1.1)*.002+lean*.006;
       g.save();g.translate(210,680);g.rotate(sway);g.scale(1,1+breath);
       g.drawImage(image,f.x,f.y,f.w,f.h,-f.anchorX*scale,-f.baseline*scale,f.w*scale,f.h*scale);g.restore();
-    }else if(hero.naturalWidth){const height=625,width=height*hero.naturalWidth/hero.naturalHeight;g.drawImage(hero,210-width/2,680-height,width,height);}
+    }else if(CharacterAssets.ready(hero)){const height=625,width=height*hero.naturalWidth/hero.naturalHeight;g.drawImage(hero,210-width/2,680-height,width,height);}
     if(!reduced())raf=requestAnimationFrame(draw);
   }
   function animate(){if(!raf&&dialog.open&&!document.hidden)raf=requestAnimationFrame(draw);}
@@ -89,7 +90,7 @@ window.StudioIntro = (function () {
     canvas.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();canvas.click();}};
     $('.intro-art').addEventListener('pointermove',e=>{if(e.pointerType==='touch'||reduced())return;const r=canvas.getBoundingClientRect();leanTarget=Math.max(-1,Math.min(1,(e.clientX-r.left-r.width/2)/(r.width/2)));});
     $('.intro-art').addEventListener('pointerleave',()=>leanTarget=0);
-    dialog.addEventListener('cancel',e=>{e.preventDefault();finish('studio',true);});hero.onload=animate;for(const name of Object.keys(poses)){poses[name].onload=animate;poses[name].src=STUDIO_MOTION[name].source;}hero.src='assets/rafael-game/hero-640.webp';
+    dialog.addEventListener('cancel',e=>{e.preventDefault();finish('studio',true);});for(const name of Object.keys(poses))CharacterAssets.load(poses[name],[STUDIO_MOTION[name].source],animate);CharacterAssets.load(hero,CharacterAssets.heroSources,animate);
     document.addEventListener('visibilitychange',()=>{if(!dialog.open||leaving)return;dialog.classList.toggle('intro-paused',document.hidden);if(document.hidden){clearTimeout(timer);remaining=Math.max(0,remaining-(performance.now()-start));if(raf)cancelAnimationFrame(raf);raf=0;}else{last=start=performance.now();if(!reduced())timer=setTimeout(()=>finish(),remaining);animate();}});
     $('#btnLang').addEventListener('click',labels);
     new MutationObserver(()=>{if(!dialog.open||leaving)return;clearTimeout(timer);if(raf)cancelAnimationFrame(raf);raf=0;if(reduced()!==wasReduced){gesture=pending=null;autoIndex=sequence.length;lean=leanTarget=0;wasReduced=reduced();if(!reduced())react('wave');}labels();if(!reduced()){last=start=performance.now();timer=setTimeout(()=>finish(),remaining);}animate();}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});

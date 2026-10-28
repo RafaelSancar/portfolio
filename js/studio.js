@@ -117,7 +117,13 @@ window.Studio = (function () {
   }
   function init(){
     if(!mount()){$('#btnMode').hidden=true;root.remove();return;}ready=true;
-    image.onload=()=>{$('#studio-loading').hidden=true;schedule();};image.onerror=()=>{$('#studio-loading').textContent=L()?'Personagem indisponível. Você pode abrir o portfólio.':'Character unavailable. You can open the portfolio.';};image.src='assets/rafael-game/hero.webp';walk.onload=schedule;walk.src=STUDIO_WALK.source;run.onload=schedule;for(const name of ['wave','present','celebrate']){motionImages[name].onload=schedule;motionImages[name].src=STUDIO_MOTION[name].source;}
+    const characterLoaded=()=>{$('#studio-loading').hidden=true;schedule();};
+    CharacterAssets.load(image,CharacterAssets.heroSources,characterLoaded,()=>{
+      $('#studio-loading').hidden=Object.values(motionImages).some(CharacterAssets.ready);
+      $('#studio-loading').textContent=L()?'Personagem indisponível. Você pode abrir o portfólio.':'Character unavailable. You can open the portfolio.';
+    });
+    for(const name of ['walk','wave','present','celebrate'])CharacterAssets.load(motionImages[name],[STUDIO_MOTION[name].source],characterLoaded);
+    run.onload=characterLoaded;run.onerror=()=>CharacterAssets.load(run,[STUDIO_MOTION.run.source],characterLoaded);
     scroll.addEventListener('scroll',onScroll,{passive:true});
     document.addEventListener('keydown',e=>{const key=e.key.toLowerCase();if(!active||focus!==null||StudioIntro.active||App.isModalOpen()||e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,select,textarea,[contenteditable="true"],dialog')||!(key in movementKeys))return;e.preventDefault();keys.add(key);schedule();});
     document.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));addEventListener('blur',resetInput);
