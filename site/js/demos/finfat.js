@@ -166,13 +166,14 @@ window.Demos.finfat = function (host, lang) {
   }
 
   function draw(anim) {
-    if (st.page === 'login') { host.innerHTML = `<div class="ff-app login ${st.dark ? 'ff-dark' : ''}">${pages.login()}</div>`; return; }
+    if (st.page === 'login') { host.innerHTML = `<div class="ff-app login ${st.dark ? 'ff-dark' : ''}">${pages.login()}</div>`; U.startPage(host,st.page); return; }
     const body = st.page === 'pagar' || st.page === 'receber' ? pages.list(st.page) : (st.page === 'cform' || st.page === 'pform') ? crudForm() : st.page === 'form' ? pages.form() : pages[st.page]();
     host.innerHTML = `<div class="ff-app ${st.dark ? 'ff-dark' : ''}">${topbar()}<div class="ff-main">${sidebar()}<section class="ff-page ${anim === false ? 'noanim' : ''}">${body}</section></div>${modal()}<div class="dm-toasts"></div></div>`;
     if (st.toast) { U.toast(host.querySelector('.ff-app'), st.toast[0], st.toast[1]); st.toast = null; }
+    U.startPage(host,st.page);
     U.countAll(host);
   }
-  const go = (p) => { if (p !== st.page) st.q = ''; st.page = p; st.bell = false; st.err = ''; st.pg = 1; if (p === 'dash') st.open = ''; if (p === 'pagar' || p === 'receber') st.open = 'fin'; if (['orc', 'vendas', 'pdv'].includes(p)) st.open = 'ven'; if (p === 'clientes' || p === 'produtos') st.open = 'cad'; draw(); };
+  const go = (p) => { U.resetScroll(host); if (p !== st.page) st.q = ''; st.page = p; st.bell = false; st.err = ''; st.pg = 1; if (p === 'dash') st.open = ''; if (p === 'pagar' || p === 'receber') st.open = 'fin'; if (['orc', 'vendas', 'pdv'].includes(p)) st.open = 'ven'; if (p === 'clientes' || p === 'produtos') st.open = 'cad'; draw(); };
 
   host.onclick = (e) => {
     const t = e.target, q = (s) => t.closest(s);

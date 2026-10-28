@@ -158,6 +158,7 @@ window.Demos.dara = function (host, lang) {
       <nav>${items.map((k) => `<button class="${st.page === k ? 'on' : ''}" data-pg="${k}"><i>${NAV[k][0]}</i>${NAV[k][1]}</button>`).join('')}</nav></aside>
       <div class="nx-col"><header class="nx-top"><b>${NAV[st.page][1]}</b><span><button class="nx-bell" data-bell aria-label="${L('Abrir notificações', 'Open notifications')}" aria-expanded="${st.bell}">🔔${bellN ? `<em>${bellN}</em>` : ''}</button></span></header><section class="nx-page">${pages[st.page]()}</section></div>${st.bell ? bellPanel() : ''}${dialog()}<div class="dm-toasts"></div></div>`;
     if (st.toast) { U.toast(host.querySelector('.nx-app'), st.toast[0], st.toast[1]); st.toast = null; }
+    U.startPage(host,st.role+':'+st.page);
     U.countAll(host);
     if (st.bell) host.querySelector('.nx-notify-close')?.focus();
   }
@@ -195,7 +196,7 @@ window.Demos.dara = function (host, lang) {
     let b;
     if (q('[data-bell]')) { st.bell = !st.bell; return draw(); }
     if (q('[data-close-bell]') || t.classList.contains('nx-notify')) { st.bell = false; draw(); host.querySelector('[data-bell]')?.focus(); return; }
-    if ((b = q('[data-pg]'))) { st.page = b.dataset.pg; st.msg = ''; st.bell = false; return draw(); }
+    if ((b = q('[data-pg]'))) { U.resetScroll(host); st.page = b.dataset.pg; st.msg = ''; st.bell = false; return draw(); }
     if ((b = q('[data-card]'))) { st.pick2 = st.pick2 === b.dataset.card ? null : b.dataset.card; return draw(); }
     if ((b = q('[data-colhead]')) && st.pick2) { const n = st.pick2; return tryMove(n, b.dataset.colhead); }
     if ((b = q('[data-view]'))) { st.view = b.dataset.view; return draw(); }

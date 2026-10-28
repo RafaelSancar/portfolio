@@ -16,8 +16,8 @@ window.Demos.uply = function (host, lang) {
 
   /* ---------- ações de domínio (usadas pela interface e pelo guia automático) ---------- */
   const say = (m, k) => { S.pt = [m, k || 'ok']; };
-  function go(role, scr, dir) { if (role !== S.role) S.role = role; if (S.scr[role] !== scr) { S.hist[role].push(S.scr[role]); } S.scr[role] = scr; S.anim = dir || 'fwd'; }
-  function back() { const h = S.hist[S.role]; S.scr[S.role] = h.pop() || 'home'; S.anim = 'back'; }
+  function go(role, scr, dir) { U.resetScroll(host); if (role !== S.role) S.role = role; if (S.scr[role] !== scr) { S.hist[role].push(S.scr[role]); } S.scr[role] = scr; S.anim = dir || 'fwd'; }
+  function back() { U.resetScroll(host); const h = S.hist[S.role]; S.scr[S.role] = h.pop() || 'home'; S.anim = 'back'; }
   const later = (ms, fn) => setTimeout(() => { if (host.isConnected && host.querySelector('.up-phone')) { fn(); draw(); } }, ms);
   function createRequest(t, d) {
     S.req = { title: t, desc: d, prof: S.prof, status: 'open' }; S.msgs = []; S.prop = null; S.con = null; S.stars = 0; S.typing = true;
@@ -134,6 +134,7 @@ window.Demos.uply = function (host, lang) {
     S.anim = '';
     const ph = host.querySelector('.up-phone');
     if (S.pt) { U.toast(ph, S.pt[0], S.pt[1]); S.pt = null; }
+    U.startPage(host,S.role+':'+S.scr[S.role]);
     U.countAll(host);
     const c = host.querySelector('#upChat'); if (c) c.scrollTop = c.scrollHeight;
   }
