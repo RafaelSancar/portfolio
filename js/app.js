@@ -8,7 +8,6 @@ window.App = (function () {
   function demoTheme(value) {
     const host=$('#demoHost');if(!host)return;
     host.dataset.demoTheme=value;host.style.colorScheme=value;
-    try{localStorage.setItem('demo-theme-'+openProjectId,value);}catch(e){}
     const button=$('#demoTheme');if(button){button.textContent=value==='dark'?(lang==='pt'?'☀ Tema claro':'☀ Light theme'):(lang==='pt'?'☾ Tema escuro':'☾ Dark theme');button.setAttribute('aria-pressed',String(value==='dark'));}
     host.dispatchEvent(new Event('demo-theme-change'));
   }
@@ -98,18 +97,18 @@ window.App = (function () {
     const ticket=++requestId;
     if($('#modal').hidden) modalTrigger=document.activeElement;
     openProjectId=id;
+    $('#modal').dataset.project=id;
     $('#modalBody').innerHTML=`<div class="m-head" style="--c:${p.color}"><h2 id="demo-title">${esc(p.name)}</h2><p>${esc(t(p.tagline))}</p></div><p class="demo-note">${ui('demoNote')}</p><div id="demoHost" class="demo-host" aria-busy="true"><p role="status">${lang==='pt'?'Carregando demo…':'Loading demo…'}</p></div>`;
     $('#modal').hidden=false; $('#modal').scrollTop=0;
     const toolbar=document.createElement('div');toolbar.className='demo-toolbar';
     toolbar.innerHTML=`<span>${lang==='pt'?'Explore o sistema':'Explore the system'}</span><button id="demoTheme" class="pbtn ghost"></button><button class="pbtn ghost" data-fullscreen></button>`;
     $('#demoHost').before(toolbar);
-    let savedTheme=theme;try{savedTheme=localStorage.getItem('demo-theme-'+id)||theme;}catch(e){}
-    demoTheme(savedTheme==='light'?'light':'dark');fullscreenLabels();
+    demoTheme('dark');fullscreenLabels();
     document.body.classList.add('noscroll');
     $('#site').inert=true; $('#topbar').inert=true; $('#toTop').inert=true; if($('#studio'))$('#studio').inert=true;
     closeMenu(); $('#modalClose').focus();
     try {
-      await loadScript('js/demos/_util.js?v=9');await loadScript(`js/demos/${id}.js?v=9`);
+      await loadScript('js/demos/_util.js?v=9');await loadScript(`js/demos/${id}.js?v=13`);
       if(ticket!==requestId || openProjectId!==id) return;
       if(!window.Demos?.[id]) throw new Error('Demo unavailable');
       const host=$('#demoHost');host.innerHTML='';Demos[id](host,lang);host.setAttribute('aria-busy','false');
@@ -120,7 +119,7 @@ window.App = (function () {
     }
   }
   function closeModal() {
-    requestId++;openProjectId=null;$('#modal').hidden=true;$('#modalBody').innerHTML='';document.body.classList.remove('noscroll');
+    requestId++;openProjectId=null;$('#modal').hidden=true;delete $('#modal').dataset.project;$('#modalBody').innerHTML='';document.body.classList.remove('noscroll');
     $('#site').inert=false;$('#topbar').inert=false;$('#toTop').inert=false;if($('#studio'))$('#studio').inert=false;
     if(modalTrigger?.isConnected) modalTrigger.focus({preventScroll:true});
   }
@@ -138,7 +137,7 @@ window.App = (function () {
     try {const saved=localStorage.getItem('lang');lang=['pt','en'].includes(saved)?saved:((navigator.language||'pt').startsWith('pt')?'pt':'en');} catch(e) {}
     renderSite();applyChrome();setReduced(reduced());
     $('#btnLang').onclick=()=>{lang=lang==='pt'?'en':'pt';try{localStorage.setItem('lang',lang);}catch(e){}closeMenu();renderSite();applyChrome();};
-    $('#btnTheme').onclick=()=>{theme=theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;try{localStorage.setItem('theme',theme);}catch(e){}applyChrome();if(window.Bg3D)Bg3D.setTheme(theme);};
+    $('#btnTheme').onclick=()=>{theme=theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;applyChrome();if(window.Bg3D)Bg3D.setTheme(theme);};
     $('#btnMenu').onclick=()=>{const open=$('#mobileMenu').hidden;$('#mobileMenu').hidden=!open;$('#btnMenu').setAttribute('aria-expanded',String(open));};
     $('#modalClose').onclick=closeModal;
     $('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
